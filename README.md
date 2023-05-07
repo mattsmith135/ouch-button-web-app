@@ -29,7 +29,6 @@ npm install
 cd ../backend
 npm install
 ```
-Create a .env file similar to the .env.example file
 
 ### Setup MongoDB Atlas and create .env file
 
