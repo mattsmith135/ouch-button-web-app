@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# ouch-button-web-app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A project comprising of a physical button and web application that allows individuals who use a wheelchair to communicate when they are experiencing pain.
 
-## Available Scripts
+### Built with
 
-In the project directory, you can run:
+- [MongoDB](https://www.mongodb.com/)
+- [ExpressJS](https://expressjs.com/)
+- [ReactJS](https://react.dev/)
+- [NodeJS](https://nodejs.org/en)
 
-### `npm start`
+## Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+You can configure and run the project locally by following the steps below.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Installation
 
-### `npm test`
+1. Clone the repo
+```
+git clone https://github.com/mattsmith135/ouch-button-web-app.git
+```
+2. Setup frontend
+```
+cd app/client
+npm install
+```
+3. Setup backend
+```
+cd ../backend
+npm install
+```
+Create a .env file similar to the .env.example file
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Setup MongoDB Atlas and create .env file
 
-### `npm run build`
+1. Within the 'backend' folder, create a .env file that is similar to the .env.example file
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Sign into [MongoDB Atlas](https://account.mongodb.com/account/login?nds=true). Login credentials are listed on the Google Drive in a file titled 'Creds'
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Select the 'Connect' button listed on the database cluster
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Under the 'Connect to your application' heading, select 'Drivers'
 
-### `npm run eject`
+4. Copy the connection string (ie. mongodb+srv//...) and paste it in the .env file next to 'ATLAS_URI'
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Start Backend
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+cd app/backend
+nodemon start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Start Frontend
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+cd app/client
+npm start
+```
