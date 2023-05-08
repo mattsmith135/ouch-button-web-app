@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema; 
 
-const userSchema = new Schema({
+const therapistSchema = new Schema({
     username: {
         type: String, 
         required: true,
@@ -14,6 +14,6 @@ const userSchema = new Schema({
     timestamps: true, 
 }); 
 
-const User = mongoose.model('User', userSchema); 
+const Therapist = mongoose.model('Therapist', therapistSchema); 
 
-module.exports = User; 
+module.exports = Therapist; 

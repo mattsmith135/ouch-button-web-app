@@ -19,10 +19,10 @@ app.use(cors());
 app.use(express.json());
 
 const clientsRouter = require('./routes/clients'); 
-const usersRouter = require('./routes/users');
+const therapistsRouter = require('./routes/therapists');
 
 app.use('/clients', clientsRouter); 
-app.use('/users', usersRouter); 
+app.use('/therapists', therapistsRouter); 
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
