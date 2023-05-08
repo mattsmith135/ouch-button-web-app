@@ -1,0 +1,74 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+
+
+
+
+
+
+/// Primary Font Family
+/// @type List
+$font-primary: 'Arial', 'Helvetica', sans-serif;
+
+
+
+
+
+
+
+/// Matisse 
+/// @type Color
+$matisse: rgb(29, 77, 147); 
+
+/// Picton Blue
+/// @type Color
+$picton-blue: rgb(57, 169, 224); 
+
+/// Perano
+/// @type Color
+$perano: rgb(169, 217, 243); 
+
+/// Rio Grande
+/// @type Color
+$rio-grande: rgb(188, 207, 13); 
+
+/// Tahiti Gold
+/// @type Color
+$tahiti-gold: rgb(240, 129, 6); 
+
+/// Cerise Red
+/// @type Color
+$cerise-red: rgb(231, 41, 113); 
+
+/// Dune
+/// @type Color
+$dune: rgb(44, 42, 41); 
+
+/// Oslo Gray
+/// @type Color
+$oslo-gray: rgb(124, 135, 142); 
+
+/// Bronco
+/// @type Color
+$bronco: rgb(172, 163, 154); 
+
+/// Swirl
+/// @type Color
+$swirl: rgb(214, 210, 196); 
+
+
+
+
+
+
+/// Breakpoints map
+/// @prop {String} keys - Keys are identifiers mapped to a given length
+/// @prop {Map} values - Values are actual breakpoints expressed in pixels
+$breakpoints: (
+    'small': 576px,
+    'medium': 768px, 
+    'large': 992px,
+    'extra-large': 1200px,
+);

@@ -42,6 +42,14 @@ npm install
 
 4. Copy the connection string (ie. mongodb+srv//...) and paste it in the .env file next to 'ATLAS_URI'
 
+5. Navigate to the 'Network Access' option under the 'Security' heading in the sidenav
+
+6. Select the 'Add IP Address button'
+
+7. In the 'Access List Entry' field, enter your IP address. To find your IP address ask Google 'What's my IP' 
+
+8. In the 'Comment' field, type 'Dev IP Address - `<yourname>`' (ie. Dev IP Address - Adam Baker)
+
 ### Start Backend
 
 ```
