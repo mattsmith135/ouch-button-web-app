@@ -54,7 +54,7 @@ npm install
 
 ```
 cd app/backend
-nodemon start
+nodemon server
 ```
 
 ### Start Frontend
