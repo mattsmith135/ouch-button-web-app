@@ -29,6 +29,10 @@ npm install
 cd ../backend
 npm install
 ```
+4. Install Nodemon
+```
+npm install -g nodemon
+```
 
 ### Setup MongoDB Atlas and create .env file
 
