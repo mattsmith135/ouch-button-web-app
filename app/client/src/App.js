@@ -1,17 +1,17 @@
 import React from 'react'; 
-import { BrowserRouter as Router, Route } from "react-router-dom"; 
-import "bootstrap/dist/css/bootstrap.min.css"; 
+import { BrowserRouter, Routes, Route } from "react-router-dom"; 
 import "./styles/sass/main.scss";
+import Navbar from "./components/Navbar";
+import Upload from "./components/Upload"; 
 
 function App() {
   return (
-    <Router>
-      <div></div>
-      <h1>Test text</h1>
-      {/*
-      <Route path="/" exact component={} />
-      */}
-    </Router>
+    <BrowserRouter>
+    <Navbar />
+      <Routes>
+        <Route path="/upload" element={<Upload />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

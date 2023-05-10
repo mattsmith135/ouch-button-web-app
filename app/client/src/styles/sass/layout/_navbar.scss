@@ -1,0 +1,42 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the navbar of the site/application.
+// -----------------------------------------------------------------------------
+
+.nav {
+    @include container-flex;
+
+    position: fixed;
+    justify-content: space-between;
+    width: 100%;  
+    top: 0; 
+    padding: 1rem 2rem 0rem 1rem; 
+}
+
+.logo {
+    display: block;
+    object-fit: contain; 
+    max-width: 150px;
+    height: auto; 
+}
+
+.nav-container {
+    @include container-flex;
+}
+
+.nav-user-account-control {
+    @include container-flex; 
+    gap: 1rem;
+    margin-top: -1rem; // counteracts +1rem padding on logo to maintain alignment
+
+    &__image {
+        display: block;
+        object-fit: contain; 
+        border-radius: 50%; 
+        max-width: 75px;
+        height: auto; 
+    }
+
+    &__text {
+        margin: auto; 
+    }
+}

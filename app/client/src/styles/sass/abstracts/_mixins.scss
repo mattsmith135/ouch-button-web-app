@@ -1,3 +1,59 @@
 // -----------------------------------------------------------------------------
 // This file contains all application-wide Sass mixins.
 // -----------------------------------------------------------------------------
+
+/** 
+ * Mixin used to apply general styles to buttons in application
+ *
+ * @mixin btn
+ *
+ * @example 
+ * // Apply mixin styles to a button element
+ * .btn {
+ *   @include btn();
+ * }
+ */
+@mixin btn() {
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block; 
+    padding: 0.5rem 1rem;
+    border-radius: $border-radius;
+}
+
+/**
+ * Generates media queries based on different screen sizes
+ *
+ * @mixin breakpoint
+ *
+ * // Applies red background color to 'my-element' by default, but switches to blue when screen size is at least 768 pixels wide
+ * @example
+ * .my-element {
+ *   background-color: red;
+ *
+ *   @include breakpoint(768px) {
+ *     background-color: blue;
+ *   }
+ * }
+ */
+@mixin breakpoint($size) {
+    @media (min-width: $size) {
+        @content; 
+    }
+}
+
+/**
+ * When attached to a div, it will make the div a flex container with items aligned horizontally and vertically. 
+ *
+ * @mixin container-flex
+ *
+ * @example
+ * .my-container {
+ *   @include container-flex;
+ * }
+*/
+@mixin container-flex {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}

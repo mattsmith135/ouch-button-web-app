@@ -1,5 +1,19 @@
 @charset "UTF-8";
 
 // 1. Abstracts
-@import 'abstracts/variables';
 @import 'abstracts/mixins';
+@import 'abstracts/variables';
+
+// 2. Vendors
+
+// 3. Base stuff 
+@import 'base/base'; 
+@import 'base/typography';
+
+// 4. Layout-related sections
+@import 'layout/navbar';
+
+// 5. Components
+@import 'components/button';
+
+// 6. Page-specific styles
