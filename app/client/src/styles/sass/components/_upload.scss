@@ -1,0 +1,20 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles corresponding to the Upload component
+// -----------------------------------------------------------------------------
+
+.upload-wrapper {
+    @include container-flex; 
+
+    flex-direction: column;
+}
+
+.upload-header {
+
+    &__heading {
+        color: $color-title; 
+    }
+
+    &__text {
+
+    }
+}

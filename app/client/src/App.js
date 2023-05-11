@@ -8,9 +8,11 @@ function App() {
   return (
     <BrowserRouter>
     <Navbar />
+    <main>
       <Routes>
         <Route path="/upload" element={<Upload />} />
       </Routes>
+    </main>
     </BrowserRouter>
   );
 }
