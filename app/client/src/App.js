@@ -10,11 +10,12 @@ function App() {
     <BrowserRouter>
     < MainPage />
     <Navbar />
-    
+    <main>
       <Routes>
         <Route path="/upload" element={<Upload />} />
         <Route path="/mainpage" element={<MainPage />} />
       </Routes>
+    </main>
     </BrowserRouter>
   );
 }

@@ -72,11 +72,4 @@ npm start
 
 [SASS](https://sass-lang.com/) is a preprocessor scripting language that is interpreted or compiled into Cascading Style Sheets. 
 
-To setup a development environment where changes to your SASS code will be compiled live, open a new terminal window and execute the following series of commands.
-
-```
-cd app/client
-npm run sass
-```
-
-It is assumed you have started the frontend and backend before running these commands.
+Provided you have the frontend development page running and your files are linked correctly, changes made to .scss files should be in-effect immediately after saving.
