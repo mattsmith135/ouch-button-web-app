@@ -84,6 +84,9 @@ $fs-700: 2.3rem;
 /// @type Number
 $--fs-xl: clamp(1rem, 1rem + 2vw, 2.0rem); 
 
+/// @type Number
+$--pushdown: clamp(8rem, calc(5rem + ((1vw - 0.32rem) * 4.1667)), 12rem);
+
 
 
 
