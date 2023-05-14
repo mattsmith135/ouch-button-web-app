@@ -4,7 +4,7 @@
 
 
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 *,
@@ -14,10 +14,12 @@ html {
 }
 
 body {
-  background-color: $color-base; 
+  background-color: $color-base-primary; 
+  margin: 0; 
+  padding: 0; 
 }
 
 a {
-    color: $color-primary; 
-    text-decoration: none;
+  color: $color-primary; 
+  text-decoration: none;
 }

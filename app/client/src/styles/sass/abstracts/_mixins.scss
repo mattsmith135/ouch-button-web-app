@@ -26,7 +26,7 @@
  *
  * @mixin breakpoint
  *
- * // Applies red background color to 'my-element' by default, but switches to blue when screen size is at least 768 pixels wide
+ * // Applies red background color to 'my-element' by default, but switches to blue when screen size is below 768 pixels wide
  * @example
  * .my-element {
  *   background-color: red;
@@ -37,7 +37,7 @@
  * }
  */
 @mixin breakpoint($size) {
-    @media (min-width: $size) {
+    @media (max-width: $size) {
         @content; 
     }
 }
@@ -58,9 +58,48 @@
     align-items: center;
 }
 
-@mixin rounded-container {
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px gray;
-    padding: 2%;
-    background-color: white;
+/**
+ * Styles for containers that store content. Makes container visible to user.
+ * 
+ * @mixin content-container
+ * 
+ * @example
+ * .my-container {
+ *   @include content-container;
+ * }
+*/
+@mixin content-container {
+    background-color: $color-base-secondary; 
+    box-shadow: 0px 0px 10px $color-primary;
+    border-radius: $border-radius;
+    padding: 0.5rem 1.5rem;
+}
+
+/**
+ * Mixin styles used to apply a consistent style to page main headings. 
+ * 
+ * @mixin heading
+ * 
+ * @example
+ * .heading {
+ *   @include heading;
+ * }
+*/
+@mixin heading {
+    color: $color-title;
+}
+
+/**
+ * Mixin styles used to apply a consistent style to page subheadings. 
+ * 
+ * @mixin subheading
+ * 
+ * @example
+ * .subheading {
+ *   @include subheading;
+ * }
+*/
+@mixin subheading {
+    color: $color-primary; 
+    font-weight: 700; 
 }
