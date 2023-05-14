@@ -128,7 +128,7 @@ $border-radius: 7.5px;
 /// Main content margin vertical global variable 
 /// Typically used to vertically position a page's main content below the navbar
 /// @type Number
-$main-content-margin-vertical: clamp(10rem, calc(5rem + ((1vw - 0.32rem) * 4.1667)), 14rem);
+$main-content-margin-vertical: clamp(12rem, calc(5rem + ((1vw - 0.32rem) * 4.1667)), 16rem);
 
 /// Main content margin horizontal global variable 
 /// Typically used to horizontally position a page's main content away from page borders

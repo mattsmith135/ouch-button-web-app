@@ -15,10 +15,20 @@
  */
 @mixin btn() {
     text-decoration: none;
-    cursor: pointer;
     display: inline-block; 
     padding: 0.5rem 1rem;
+    border: none;
+    background-color: $color-primary; 
+    color: rgb(255, 255, 255); 
     border-radius: $border-radius;
+    font-size: $fs-400;
+    font-weight: 400; 
+    transition: all 0.2s ease-in-out; 
+
+    &:hover {
+        cursor: pointer;
+        background-color: darken($color-primary, 20%);
+    }
 }
 
 /**
@@ -70,7 +80,8 @@
 */
 @mixin content-container {
     background-color: $color-base-secondary; 
-    box-shadow: 0px 0px 10px $color-primary;
+    box-shadow: 0px 4px 15px lighten($color-primary, 50%);
+    border: 0.05px solid $color-primary;
     border-radius: $border-radius;
     padding: 1rem 1.5rem;
 }
