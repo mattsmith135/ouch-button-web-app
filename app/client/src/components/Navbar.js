@@ -19,7 +19,7 @@ class Navbar extends Component {
                 </div>
                 <div className="nav-container nav-container-right">
                     <div className="nav-user-account-control">
-                        <img src={accountLogo} alt="Portrait picture of person" className="nav-user-account-control__image" />
+                        <img src={accountLogo} alt="Portrait of person" className="nav-user-account-control__image" />
                         <p className="nav-user-account-control__text">Antonio</p>
                         <Button text="Log out"/>
                     </div>

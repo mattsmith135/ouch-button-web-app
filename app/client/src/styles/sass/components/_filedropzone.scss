@@ -1,0 +1,27 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles corresponding to the FileDropzone component
+// -----------------------------------------------------------------------------
+
+.file-dropzone-container {
+    @include container-flex; 
+    
+    flex-direction: column;
+    padding: 2rem;
+    border: 2px dashed $color-primary;
+    border-radius: $border-radius;  
+    background-color: rgba($color-secondary, .3); 
+    outline: none;
+    transition: border 0.24s ease-in-out;
+
+    &[isdragaccept='true'] {
+        border-color: rgb(0, 255, 0);
+    }
+
+    &[isdragreject='true'] {
+        border-color: rgb(255, 0, 0);
+    }
+
+    &[isfocused='true'] {
+        border-color: $color-secondary;
+    }
+}

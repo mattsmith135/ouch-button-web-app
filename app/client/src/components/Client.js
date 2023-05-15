@@ -33,8 +33,8 @@ class Client extends Component {
                                 </div>
                                 <div className="client-information-content-row">
                                     <div className="client-information-field">
-                                        <p className="client-information-field__label">Phone</p>
-                                        <p className="client-information-field__entry">+61 452 103 520</p>
+                                        <p className="client-information-field__label">Email</p>
+                                        <p className="client-information-field__entry">adambaker@gmail.com</p>
                                     </div>
                                 </div>
                                 
