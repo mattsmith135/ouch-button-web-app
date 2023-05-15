@@ -1,5 +1,6 @@
 import React from 'react'; 
 import { useDropzone } from 'react-dropzone';
+import {ReactComponent as UploadIcon} from '../assets/upload-icon.svg'; 
 
 function FileDropzone(props) {
     const {
@@ -34,23 +35,24 @@ function FileDropzone(props) {
     ));
 
     return (
-        <div>
+        <div className="file-dropzone-wrapper">
             <div
-                className="file-dropzone-container"
+                className="file-dropzone"
                 {...getRootProps({ isFocused, isDragAccept, isDragReject })}
                 isdragaccept={isDragAccept.toString()}
                 isdragreject={isDragReject.toString()}
                 isfocused={isFocused.toString()}
             >
                 <input {...getInputProps()} /> 
-                <p>Drag 'n' drop some files here, or click to select files</p>
+                <UploadIcon className="file-dropzone__icon" /> 
+                <p className="file-dropzone__text">Drag 'n' drop some files here, or click to select files</p>
                 <em>(Only *.csv files will be accepted)</em>
             </div>
-            <aside>
-            <h4>Accepted files</h4>
-            <ul>{acceptedFileItems}</ul>
-            <h4>Rejected files</h4>
-            <ul>{fileRejectionItems}</ul>
+            <aside className="uploaded-files">
+                <h4 className="uploaded-files__heading">Accepted files</h4>
+                <ul className="uploaded-files__list">{acceptedFileItems}</ul>
+                <h4 className="uploaded-files__heading">Rejected files</h4>
+                <ul className="uploaded-files__list">{fileRejectionItems}</ul>
             </aside>
         </div>
     )
