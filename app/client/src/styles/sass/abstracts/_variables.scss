@@ -34,9 +34,13 @@ $color-tertiary: rgb(169, 217, 243);
 /// @type Color
 $color-title: rgb(231, 41, 113); 
 
-/// Base Color
+/// Base Primary Color
 /// @type Color
-$color-base: rgb(249, 250, 251); 
+$color-base-primary: rgb(249, 250, 251); 
+
+/// Base Secondary Color
+/// @type Color
+$color-base-secondary: rgb(255, 255, 255); 
 
 /// Text Color
 /// @type Color
@@ -84,10 +88,6 @@ $fs-700: 2.3rem;
 /// @type Number
 $--fs-xl: clamp(1rem, 1rem + 2vw, 2.0rem); 
 
-/// @type Number
-$--pushdown: clamp(8rem, calc(5rem + ((1vw - 0.32rem) * 4.1667)), 12rem);
-
-
 
 
 
@@ -118,3 +118,19 @@ $breakpoints: (
 
 
 $border-radius: 7.5px; 
+
+
+
+
+
+
+
+/// Main content margin vertical global variable 
+/// Typically used to vertically position a page's main content below the navbar
+/// @type Number
+$main-content-margin-vertical: clamp(12rem, calc(5rem + ((1vw - 0.32rem) * 4.1667)), 16rem);
+
+/// Main content margin horizontal global variable 
+/// Typically used to horizontally position a page's main content away from page borders
+/// @type Number
+$main-content-margin-horizontal: 3.2rem;
