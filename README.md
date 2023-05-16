@@ -4,7 +4,7 @@ A project comprising of a physical button and web application that allows indivi
 
 ### Built with
 
-- [MongoDB](https://www.mongodb.com/)
+- [MySQL](https://www.mysql.com/)
 - [ExpressJS](https://expressjs.com/)
 - [ReactJS](https://react.dev/)
 - [NodeJS](https://nodejs.org/en)
@@ -34,25 +34,14 @@ npm install
 npm install -g nodemon
 ```
 
-### Setup MongoDB Atlas and create .env file
+### Setup MySQL Database
 
-1. Within the 'backend' folder, create a .env file that is similar to the .env.example file
-
-1. Sign into [MongoDB Atlas](https://account.mongodb.com/account/login?nds=true). Login credentials are listed on the Google Drive in a file titled 'Creds'
-
-2. Select the 'Connect' button listed on the database cluster
-
-3. Under the 'Connect to your application' heading, select 'Drivers'
-
-4. Copy the connection string (ie. mongodb+srv//...) and paste it in the .env file next to 'ATLAS_URI'
-
-5. Navigate to the 'Network Access' option under the 'Security' heading in the sidenav
-
-6. Select the 'Add IP Address button'
-
-7. In the 'Access List Entry' field, enter your IP address. To find your IP address ask Google 'What's my IP' 
-
-8. In the 'Comment' field, type 'Dev IP Address - `<yourname>`' (ie. Dev IP Address - Adam Baker)
+1. Install [XAMP](https://www.apachefriends.org/)
+2. Start MySQL and Apache 
+3. Navigate to phpMyAdmin (should be on localhost)
+4. Create a new schema called 'ouch_button'
+5. Run the SQL code from /backend/sql/schema.sql to create the tables
+6. Run the SQL code from /backend/sql/data.sql to populate the tables with data
 
 ### Start Backend
 
