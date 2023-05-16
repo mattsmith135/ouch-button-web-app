@@ -1,16 +1,20 @@
 const express = require('express'); 
+const bodyParser = require('body-parser'); 
 const cors = require('cors');
 const mysql = require('mysql'); 
 
 require('dotenv').config(); 
 
-const app = express(); 
-const port = process.env.PORT || 5000; 
+const app = express();
+app.use(express.json()); 
+app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(cors()); 
+
 
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'your_user', 
-    password: 'your_password', 
+    user: 'root', 
+    password: '', 
     database: 'ouch_button',
 }); 
 
@@ -23,10 +27,25 @@ db.connect((err) => {
 }); 
 
 // Define API Routes
+app.get("/api/get", (req, res) => {
+    const sqlSelect = ""; 
+    db.query(sqlSelect, (err, result) => {
+        res.send(result); 
+    }); 
+});
 
-app.use(cors()); 
-app.use(express.json());
+app.post("/api/insert", (req, res) => {
+    const sqlInsert = "";
+    db.query(sqlInsert, (err, result) => {
+    
+    }); 
+});
 
+
+
+const port = process.env.PORT || 5000; 
+
+// Start server
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 }); 
