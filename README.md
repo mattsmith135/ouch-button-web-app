@@ -4,7 +4,7 @@ A project comprising of a physical button and web application that allows indivi
 
 ### Built with
 
-- [MongoDB](https://www.mongodb.com/)
+- [MySQL](https://www.mysql.com/)
 - [ExpressJS](https://expressjs.com/)
 - [ReactJS](https://react.dev/)
 - [NodeJS](https://nodejs.org/en)
