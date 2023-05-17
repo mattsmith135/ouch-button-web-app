@@ -1,0 +1,87 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the Client component
+// -----------------------------------------------------------------------------
+
+@use "sass:map"; // required to access map.get() method
+
+.client {
+    @include container-flex;
+
+    margin: $main-content-margin-vertical $main-content-margin-horizontal;
+
+    &-header, &-content {
+        width: 100%;
+    }
+}
+
+.client-wrapper {
+    @include container-flex; 
+
+    flex-direction: column;
+    width: 100%;
+}
+
+.client-header {
+
+    &__subheading {
+        @include subheading;
+    }
+
+    &__heading {
+        @include heading; 
+    }
+}
+
+.client-information {
+    @include content-container; 
+
+    display: flex; 
+    flex-direction: column; 
+    gap: 1rem;
+    
+    &-header {
+        @include container-flex; 
+
+        justify-content: space-between;
+        height: auto;
+        width: 100%; 
+
+        &__heading {
+            @include subheading; 
+
+            margin: 0px; // removing default <h3> margin
+        }
+    }
+
+    &-content {
+        display: flex; 
+        flex-direction: column;
+        gap: 1rem;
+        width: 50%;
+
+        @include breakpoint(map.get($breakpoints, "small")) {
+            width: 100%;
+        }
+    }
+
+    &-content-row {
+        @include container-flex;
+
+        justify-content: space-between;
+    }
+}
+
+.client-information-field {
+
+    &__label, &__entry {
+        margin: 0px; // removing default <p> padding/margin
+    }
+
+    &__label {
+        color: lighten($text-color, 55%);
+    }
+
+    &__entry {
+
+    }
+}

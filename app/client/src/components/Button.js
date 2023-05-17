@@ -9,7 +9,7 @@ class Button extends Component {
         const { text } = this.props; 
 
         return (
-            <button class="btn">{text}</button>
+            <button className="btn">{text}</button>
         );
     }
 }

@@ -2,16 +2,30 @@
 // This file contains all styles corresponding to the Upload component
 // -----------------------------------------------------------------------------
 
+.upload {
+    @include container-flex; 
+
+    margin: $main-content-margin-vertical $main-content-margin-horizontal;
+
+    flex-direction: column;
+
+    &-header, &-content {
+        width: 100%;
+    }
+}
+
 .upload-wrapper {
     @include container-flex; 
 
-    flex-direction: column;
+    flex-direction: column; 
+    width: 100%;
 }
 
 .upload-header {
+    text-align: center;
 
     &__heading {
-        color: $color-title; 
+        @include heading;
     }
 
     &__text {

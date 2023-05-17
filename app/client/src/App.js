@@ -3,17 +3,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles/sass/main.scss";
 import Navbar from "./components/Navbar";
 import Upload from "./components/Upload"; 
-import MainPage from './components/MainPage';
+import Client from './components/Client';
 
 function App() {
   return (
     <BrowserRouter>
-    < MainPage />
     <Navbar />
     <main>
       <Routes>
         <Route path="/upload" element={<Upload />} />
-        <Route path="/mainpage" element={<MainPage />} />
+        <Route path="/client" element={<Client />} />
       </Routes>
     </main>
     </BrowserRouter>

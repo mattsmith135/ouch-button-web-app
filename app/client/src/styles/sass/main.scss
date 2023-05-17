@@ -12,11 +12,12 @@
 
 // 4. Layout-related sections
 @import 'layout/navbar';
-@import 'layout/mainpage';
 
 // 5. Components
 @import 'components/button';
 @import 'components/upload';
 @import 'components/pagination';
+@import 'components/client'; 
+@import 'components/filedropzone'; 
 
 // 6. Page-specific styles
