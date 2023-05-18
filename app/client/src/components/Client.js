@@ -26,7 +26,8 @@ const BarChart = ({ data }) => {
             <Bar
                 data = {data}
                 height={400}
-                width={700}
+                width={1800}
+                
             />
         </div>
     )
@@ -91,8 +92,9 @@ class Client extends Component {
         });
       
         return lastWeekButtonData;
-      }
+    }
     
+    //List the actual calendar last 7 days
     listLastWeekDays(){
         const lastWeekDates = [];
         const today = new Date(); // Get the current date
@@ -138,7 +140,7 @@ class Client extends Component {
         return weeklyFrequency;
     }
 
-    //return the day of the week (for the chart)
+    //return the day of the week given a date time
     getDayOfWeek(dateString) {
         const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const dateParts = dateString.split(' ')[0].split('-');
@@ -165,6 +167,67 @@ class Client extends Component {
         return barData;
     }
 
+    getHighestDayFrequency(chartData, weekdays){
+        var highestDay = '';
+        var highestValue = 0;
+        var index = 0;
+        for(let i=0; i < 7; i++){
+            if(chartData[i] > highestValue){
+                highestValue = chartData[i];
+                index = i;
+            }
+        }
+        highestDay = weekdays[index];
+        return highestDay;
+    }
+
+    getMostCommonHour(dates) {
+        const timeHours = [];
+        const hourCount = {};
+        var formattedHour = '';
+        var ampm = '';
+      
+        dates.forEach(dateString => {
+          const dateTime = new Date(dateString);
+          const time = dateTime.getUTCHours(); // Extract the hour portion
+      
+          timeHours.push(time); // Add the hour to the array
+        });
+      
+        timeHours.forEach(hour => {
+          if (hourCount[hour]) {
+            hourCount[hour]++;
+          } else {
+            hourCount[hour] = 1;
+          }
+        });
+      
+        let mostCommonHour;
+        let maxCount = 0;
+      
+        // Find the hour with the maximum count
+        for (const hour in hourCount) {
+          const count = hourCount[hour];
+          if (count > maxCount) {
+            mostCommonHour = parseInt(hour);
+            maxCount = count;
+          }
+        }
+
+        //Format the hour
+        if(mostCommonHour > 12){
+            ampm = 'PM';
+            mostCommonHour = mostCommonHour - 12
+        }
+        else{
+            ampm = 'AM';
+        }
+
+        formattedHour = mostCommonHour + ampm;
+      
+        return formattedHour;
+      }
+            
     render() {
 
         //the full rows in the ouchbuttondata table that were added sometime within the last week
@@ -177,60 +240,48 @@ class Client extends Component {
         const weeklyFrequency = Object.keys(this.getLastWeekFrequency()).length;
 
         //the array of the number of rows entered into the ouchbuttondata table for each day of the last7Days array
-        var barData = this.getBarData(last7DatesRows, last7Days);
+        const barData = this.getBarData(last7DatesRows, last7Days);
+
+        //the day of the week with the highest number of presses
+        const highestNumberDay = this.getHighestDayFrequency(barData, last7Days);
+
+        //the hour of the week that had the most number of presses
+        const highestHour = this.getMostCommonHour(last7DatesRows.map(data => data.Time));
 
         const chartData = {
             labels: last7Days,
             datasets: [{
-                label: 'Testing label',
-                data: this.getBarData(last7DatesRows, last7Days)
-            }]
-        };
+              label: 'Testing label',
+              data: barData,
+            }],
+            options: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: 'Latest 7 sample data'
+              },
+              scales: {
+                y: { grace: '2%' }
+              }
+            }
+          };
+          
 
         return (
             <div className="client">
-                <div className="client-wrapper">
-                    <div className="client-header">
-                        <p className="client-header__subheading">User</p>
-                        <h1 className="client-header__heading">Adam Baker</h1>
-                    </div>
-                    <div className="client-content">
-                        <div className="client-information">
-                            <div className="client-information-header">
-                                <h3 className="client-information-header__heading">Personal Information</h3>
-                                <Button text="Edit"/>
-                            </div>
-                            <div className="client-information-content">
-                                <div className="client-information-content-row">
-                                    <div className="client-information-field">
-                                        <p className="client-information-field__label">First Name</p>
-                                        <p className="client-information-field__entry">Adam</p>
-                                    </div>
-                                    <div className="client-information-field">
-                                        <p className="client-information-field__label">Last Name</p>
-                                        <p className="client-information-field__entry">Baker</p>
-                                    </div>
-                                </div>
-                                <div className="client-information-content-row">
-                                    <div className="client-information-field">
-                                        <p className="client-information-field__label">Email</p>
-                                        <p className="client-information-field__entry">adambaker@gmail.com</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h1>All Time (Just listing so I can see what's going on and make sure it's working properly)</h1>
-                    <table>
-                        <tbody>
-                            {this.buttonDataList()}
-                        </tbody>
-                    </table>
-                    <h1>This Week's</h1>
-                        <p>{console.log(last7DatesRows.data)}</p>
-                        <p>{console.log(last7Days)}</p>
-                    <h1>Total number of presses this week: {weeklyFrequency}</h1>
+                <div className="client-bar">
+                    <h1>Number of Button Presses this week:</h1>
                     <BarChart data={chartData} />
+                </div>
+                <div className="client-stats">
+                    <div className="client-stats-contentbox">
+                        <h1> This week, the day the button was pressed the most was:</h1>
+                        <p className="client-stats-contentbox__stat">{highestNumberDay}</p>
+                    </div>
+                    <div className="client-stats-contentbox">
+                        <h1> This most common time preiod the button was pressed is:</h1>
+                        <p className="client-stats-contentbox__stat">{highestHour}</p>
+                    </div>
                 </div>
             </div>
         )
