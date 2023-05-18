@@ -14,6 +14,7 @@ app.use(cors());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root', 
+    port: 3307,
     password: '', 
     database: 'ouch_button',
 }); 
@@ -27,8 +28,22 @@ db.connect((err) => {
 }); 
 
 // Define API Routes
-app.get("/api/get", (req, res) => {
-    const sqlSelect = ""; 
+app.get("/api/get/buttonData", (req, res) => {
+    const sqlSelect = "SELECT * FROM ouchbuttondata"; 
+    db.query(sqlSelect, (err, result) => {
+        res.send(result); 
+    }); 
+});
+
+app.get("/api/get/patientData", (req, res) => {
+    const sqlSelect = "SELECT * FROM client"; 
+    db.query(sqlSelect, (err, result) => {
+        res.send(result); 
+    }); 
+});
+
+app.get("/api/get/therapistData", (req, res) => {
+    const sqlSelect = "SELECT * FROM therapist"; 
     db.query(sqlSelect, (err, result) => {
         res.send(result); 
     }); 
