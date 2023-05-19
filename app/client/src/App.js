@@ -5,13 +5,11 @@ import Navbar from "./components/Navbar";
 import Upload from "./components/Upload"; 
 import Client from './components/Client';
 
-
 function App() {
 
   return (
     <BrowserRouter>
     <Navbar />
-    <Client />
     <main>
       <Routes>
         <Route path="/upload" element={<Upload />} />

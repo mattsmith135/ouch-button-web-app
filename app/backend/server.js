@@ -10,11 +10,12 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(cors()); 
 
+const port = process.env.PORT || 5000; 
 
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root', 
-    port: 3307,
+    port: port,
     password: '', 
     database: 'ouch_button',
 }); 
@@ -55,10 +56,6 @@ app.post("/api/insert", (req, res) => {
     
     }); 
 });
-
-
-
-const port = process.env.PORT || 5000; 
 
 // Start server
 app.listen(port, () => {
