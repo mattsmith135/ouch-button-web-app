@@ -13,7 +13,8 @@ function App() {
     <main>
       <Routes>
         <Route path="/upload" element={<Upload />} />
-        <Route path="/client" element={<Client />} />
+        {/* Test clientId prop! In future, <Client /> will be created from the <Search /> component */}
+        <Route path="/client" element={<Client clientId={6} />} /> 
       </Routes>
     </main>
     </BrowserRouter>
