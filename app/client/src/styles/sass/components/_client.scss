@@ -2,31 +2,21 @@
 // This file contains all styles related to the Client component
 // -----------------------------------------------------------------------------
 
-@use "sass:map"; // required to access map.get() method
-
-.client{
-    margin-top: 10rem;
+.client {
+    margin: $main-content-margin-vertical $main-content-margin-horizontal;
 }
 
-.client-bar{
-    border: 2px solid black;
-    margin: 2rem;
-    padding: 2rem;
+.client-metrics {
+    @include container-flex; 
+
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.client-stats{
-    @include container-flex;
-    justify-content: space-between;
-    margin: 2rem;
-}
+.client-metric {
+    @include content-container; 
 
-.client-stats-contentbox{
-    border: 2px solid black;
-    width: 49%;
-    padding: 2rem;
-}
-
-.client-stats-contentbox__stat{
-    font-size: 5rem;
-    text-align: center;
+    &__heading {
+        @include subheading;
+    }
 }

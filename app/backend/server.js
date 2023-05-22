@@ -10,53 +10,51 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(cors()); 
 
-
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root', 
-    port: 3307,
     password: '', 
     database: 'ouch_button',
 }); 
 
 db.connect((err) => {
     if (err) {
-        console.error('Error connnecting to MySQL database', err); 
+        console.error('Error connecting to MySQL database', err); 
     } else {
         console.log('Connected to MySQL database'); 
     }
 }); 
 
 // Define API Routes
-app.get("/api/get/buttonData", (req, res) => {
-    const sqlSelect = "SELECT * FROM ouchbuttondata"; 
-    db.query(sqlSelect, (err, result) => {
-        res.send(result); 
-    }); 
-});
-
-app.get("/api/get/patientData", (req, res) => {
-    const sqlSelect = "SELECT * FROM client"; 
-    db.query(sqlSelect, (err, result) => {
-        res.send(result); 
-    }); 
-});
-
-app.get("/api/get/therapistData", (req, res) => {
-    const sqlSelect = "SELECT * FROM therapist"; 
-    db.query(sqlSelect, (err, result) => {
-        res.send(result); 
-    }); 
-});
-
-app.post("/api/insert", (req, res) => {
-    const sqlInsert = "";
-    db.query(sqlInsert, (err, result) => {
+app.get('/api/get/client/:clientId', (req, res) => {
+    const clientId = req.params.clientId; 
     
+    const sqlSelect = `SELECT * FROM client WHERE clientID = ${clientId}`; 
+    
+    db.query(sqlSelect, (err, result) => {
+        if (err) {
+            console.log(err); 
+            res.sendStatus(500); 
+            return; 
+        }
+        res.send(result); 
     }); 
 });
 
+app.get('/api/get/client/:clientId/ouchbuttondata', (req, res) => {
+    const clientId = req.params.clientId;
 
+    const sqlSelect = `SELECT * FROM ouchbuttondata WHERE clientID = ${clientId}`; 
+
+    db.query(sqlSelect, (err, result) => {
+        if (err) {
+            console.log(err); 
+            res.sendStatus(500); 
+            return; 
+        }
+        res.send(result); 
+    });
+});
 
 const port = process.env.PORT || 5000; 
 

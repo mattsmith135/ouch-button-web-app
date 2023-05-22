@@ -5,17 +5,16 @@ import Navbar from "./components/Navbar";
 import Upload from "./components/Upload"; 
 import Client from './components/Client';
 
-
 function App() {
 
   return (
     <BrowserRouter>
     <Navbar />
-    <Client />
     <main>
       <Routes>
         <Route path="/upload" element={<Upload />} />
-        <Route path="/client" element={<Client />} />
+        {/* Test clientId prop! In future, <Client /> will be created from the <Search /> component */}
+        <Route path="/client" element={<Client clientId={6} />} /> 
       </Routes>
     </main>
     </BrowserRouter>
