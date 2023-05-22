@@ -14,6 +14,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root', 
     password: '', 
+    port: process.env.MYSQL_PORT | 3307,
     database: 'ouch_button',
 }); 
 
