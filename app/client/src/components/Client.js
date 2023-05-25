@@ -13,7 +13,8 @@ function Client({ clientId }) {
         const fetchClientData = async() => {
             try {
                 const response = await api.get(`/api/get/client/${clientId}`); 
-                setClientData(response.data); 
+                const clientData = response.data[0]; 
+                setClientData(clientData); 
             } catch (err) {
                 if (err.response) {
                     console.log(err.response.data); 
@@ -123,7 +124,11 @@ function Client({ clientId }) {
 
     return (
         <div className="client">
-            <div className="client-metrics">
+            <div className="client-header">
+                <h4 className="client-header__subheading">User</h4>
+                <h1 className="client-header__heading">{clientData && clientData.ClientName}</h1>
+            </div>
+            <div className="client-content">
                 <div className="client-metric">
                     {chartData && <BarChart chartData={chartData} chartOptions={chartOptions} />}
                 </div>
