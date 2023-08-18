@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:latest
+    restart: unless-stopped
+  
+  backend:
+    depends_on:
+      - mysqldb
+    restart: unless-stopped
+  
+  client:
+    depends_on: 
+      - bezkoder-api
+
+volumes:
+
+networks:
