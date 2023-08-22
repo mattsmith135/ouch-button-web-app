@@ -18,7 +18,8 @@ services:
     build:
       context: ./server
     volumes:
-      - ./api-server:/src
+      # Mounts the "server" directory from the host to the "/src" directory in the container
+      - ./server:/src
       - /src/node_modules
     ports:
       - $SERVER_PORT:$SERVER_PORT
