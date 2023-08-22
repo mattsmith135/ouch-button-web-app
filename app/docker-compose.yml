@@ -1,19 +1,37 @@
 version: '3.8'
 
 services:
-  mysqldb:
-    image: mysql:latest
-    restart: unless-stopped
-  
-  backend:
-    depends_on:
-      - mysqldb
-    restart: unless-stopped
-  
-  client:
+  nginx: 
+    # Starts services in dependency order
     depends_on: 
-      - bezkoder-api
+      - server
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      # Expose 80 from container as 8008 externally
+      - "8008:80"
 
-volumes:
+  server: 
+    build:
+      context: ./server
+    volumes:
+      - ./api-server:/src
+      - /src/node_modules
+    ports:
+      - $SERVER_PORT:$SERVER_PORT
 
-networks:
+  client:
+    stdin_open: true
+    # Fix for hot reload for React apps inside of containers
+    environment: 
+      - CHOKIDAR_USEPOLLING=true
+    build:
+      context: ./client
+    volumes:
+      - ./client:/src
+      - /src/node_modules
+    ports: 
+      - $CLIENT_PORT:$CLIENT_PORT

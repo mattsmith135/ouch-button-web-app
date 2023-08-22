@@ -1,3 +1,9 @@
-# Dockerfile for React client
+FROM node
 
-FROM node:latest
+WORKDIR /src
+COPY package*.json ./
+EXPOSE 3000
+
+COPY ./ ./
+RUN npm i
+CMD ["npm", "run", "start"]
