@@ -57,7 +57,7 @@ app.get('/api/get/client/:clientId/ouchbuttondata', (req, res) => {
     });
 });
 
-const port = process.env.PORT || 5000; 
+const port = process.env.EXPRESS_PORT || 5000; 
 
 // Start server
 app.listen(port, () => {
