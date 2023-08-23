@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react"; 
 import BarChart from "./BarChart";
 import api from "../api/posts"; 
+import axios from "axios";
 
 function Client({ clientId }) {
-    const [clientData, setClientData] = useState(); 
-    const [ouchButtonData, setOuchButtonData] = useState(); 
+    const [listOfclientData, setlistOfClientData] = useState([]); 
+    const [listOfouchButtonData, setlistOfouchButtonData] = useState([]); 
+    const [listOfTherapistData, setlistOfTherapistData] = useState([]); 
     const [chartData, setChartData] = useState(); 
 
     const [mostCommonTime, setMostCommonTime] = useState(); 
 
-    useEffect(() => {
+    /*useEffect(() => {
         const fetchClientData = async() => {
             try {
                 const response = await api.get(`/api/get/client/${clientId}`); 
@@ -79,7 +81,7 @@ function Client({ clientId }) {
 
             //* Calculates the most common hour by sorting the 'timeOccurrences' object in descending order based on
             /*  the occurence count and then retrieving the key (hour) from the first element of the sorted array.
-            */
+            
             const timeOccurrences = {}; 
             filteredData.forEach((entry) => {
                 const entryTime = new Date(entry.Time); 
@@ -100,8 +102,28 @@ function Client({ clientId }) {
 
             return; 
         }
-    }, [ouchButtonData]);
-    
+    }, [ouchButtonData]);*/
+    useEffect(() => {
+        axios.get("http://localhost:5000/clientdata").then((response) => {
+            setlistOfClientData(response.data);
+            console.log(response);
+        });
+    }, []);
+
+    useEffect(() => {
+        axios.get("http://localhost:5000/ouchbuttondata").then((response) => {
+            setlistOfouchButtonData(response.data);
+            console.log(response);
+        });
+    }, []);
+
+    useEffect(() => {
+        axios.get("http://localhost:5000/therapist").then((response) => {
+            setlistOfTherapistData(response.data);
+            console.log(response);
+        });
+    }, []);
+
     var chartOptions = {
         scales: {
             y: {
@@ -124,9 +146,13 @@ function Client({ clientId }) {
 
     return (
         <div className="client">
+            <div className="search">
+                <h4 className="search__label"> Search:</h4>
+                <input type="text" name="client" />
+            </div>
             <div className="client-header">
                 <h4 className="client-header__subheading">User</h4>
-                <h1 className="client-header__heading">{clientData && clientData.ClientName}</h1>
+                <h1 className="client-header__heading">test</h1>
             </div>
             <div className="client-content">
                 <div className="client-metric">
@@ -137,6 +163,12 @@ function Client({ clientId }) {
                     {mostCommonTime ? <p>{mostCommonTime}</p> : <p>Loading...</p>}
                 </div>
             </div>
+            <h2>Testing connectivity to all tables</h2>
+            {listOfclientData.map((value, key) => { return <div> {value.ClientName} </div>})}
+            <p>----------------------------------------------------------</p>
+            {listOfouchButtonData.map((value, key) => { return <div> {value.Location} </div>})}
+            <p>----------------------------------------------------------</p>
+            {listOfTherapistData.map((value, key) => { return <div> {value.TherapistEmail} </div>})}
         </div>
     ); 
 }
