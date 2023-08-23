@@ -24,9 +24,9 @@ git clone https://github.com/mattsmith135/ouch-button-web-app.git
 cd app/client
 npm install
 ```
-3. Setup backend
+3. Setup server
 ```
-cd ../backend
+cd ../server
 npm install
 ```
 4. Install Nodemon
@@ -40,13 +40,13 @@ npm install -g nodemon
 2. Start MySQL and Apache 
 3. Navigate to phpMyAdmin (should be on localhost)
 4. Create a new schema called 'ouch_button'
-5. Run the SQL code from /backend/sql/schema.sql to create the tables
-6. Run the SQL code from /backend/sql/data.sql to populate the tables with data
+5. Run the SQL code from /server/sql/schema.sql to create the tables
+6. Run the SQL code from /server/sql/data.sql to populate the tables with data
 
-### Start Backend
+### Start Server
 
 ```
-cd app/backend
+cd app/server
 nodemon server
 ```
 
