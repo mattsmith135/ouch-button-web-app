@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 
-    const therapist = sequelize.define("therapist", { 
+    const therapistdata = sequelize.define("therapistdata", { 
         TherapistID: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -20,5 +20,5 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false
     });
 
-    return therapist;
+    return therapistdata;
 };

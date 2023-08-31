@@ -3,8 +3,8 @@ const router = express.Router();
 const {ouchbuttondata} = require('../models');
 
 router.get('/', async (req, res) => {
-    const listOfouchbuttondata = await ouchbuttondata.findAll();
-    res.json(listOfouchbuttondata);
+    const response = await ouchbuttondata.findAll();
+    res.json(response);
 });
 
 router.post('/', async (req, res) => {

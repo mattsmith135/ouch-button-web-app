@@ -1,47 +1,46 @@
 import { useState, useEffect } from "react"; 
 import { useParams } from "react-router-dom";
 import BarChart from "./BarChart";
-import api from "../api/posts"; 
 import axios from "axios";
 
 function Client() {
     let {clientId} = useParams();
-    const [listOfclientData, setlistOfClientData] = useState([]); 
-    const [listOfouchButtonData, setlistOfouchButtonData] = useState([]); 
-    const [listOfTherapistData, setlistOfTherapistData] = useState([]); 
+    const [clientData, setclientData] = useState([]); 
+    const [ouchButtonData, setouchButtonData] = useState([]); 
+    const [therapistData, settherapistData] = useState([]); 
     const [chartData, setChartData] = useState(); 
 
     const [mostCommonTime, setMostCommonTime] = useState(); 
 
     useEffect(() => {
         axios.get("http://localhost:5000/clientdata").then((response) => {
-            setlistOfClientData(response.data);
+            setclientData(response.data);
             //*console.log(response);
         });
     }, []);
 
     useEffect(() => {
         axios.get("http://localhost:5000/ouchbuttondata").then((response) => {
-            setlistOfouchButtonData(response.data);
+            setouchButtonData(response.data);
             //*console.log(response);
         });
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:5000/therapist").then((response) => {
-            setlistOfTherapistData(response.data);
+        axios.get("http://localhost:5000/therapistdata").then((response) => {
+            settherapistData(response.data);
             //*console.log(response);
         });
     }, []);
 
     useEffect(() => {
-        const ouchButtonData = listOfouchButtonData.map((value, key) => value.Time);
+        const ouchButtonEntry = ouchButtonData.map((value, key) => value.Time);
         
-        //*To make sure the list is both loaded and populated
-        if (ouchButtonData.length > 0) {
+        //*Confirming list is both loaded and populated
+        if (ouchButtonEntry.length > 0) {
             const today = new Date(); 
             const oneWeekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000); 
-            const filteredData = ouchButtonData.filter((entry) => {
+            const filteredData = ouchButtonEntry.filter((entry) => {
                 const entryDate = new Date(entry); 
                 return entryDate >= oneWeekAgo && entryDate <= today;
             });
@@ -94,7 +93,7 @@ function Client() {
 
             return; 
         }
-    }, [listOfouchButtonData]);
+    }, [ouchButtonData]);
 
     
 
@@ -138,11 +137,11 @@ function Client() {
                 </div>
             </div>
             <h2>Testing connectivity to all tables</h2> {clientId}
-            {listOfclientData.map((value, key) => { return <div> {value.ClientName} </div>})}
+            {clientData.map((value, key) => { return <div> {value.ClientName} </div>})}
             <p>----------------------------------------------------------</p>
-            {listOfouchButtonData.map((value, key) => { return <div> {value.Time} </div>})}
+            {ouchButtonData.map((value, key) => { return <div> {value.Time} </div>})}
             <p>----------------------------------------------------------</p>
-            {listOfTherapistData.map((value, key) => { return <div> {value.TherapistEmail} </div>})}
+            {therapistData.map((value, key) => { return <div> {value.TherapistEmail} </div>})}
         </div>
     ); 
 }
