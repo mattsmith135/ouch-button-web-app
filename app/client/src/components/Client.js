@@ -1,62 +1,54 @@
 import { useState, useEffect } from "react"; 
+import { useParams } from "react-router-dom";
 import BarChart from "./BarChart";
 import api from "../api/posts"; 
+import axios from "axios";
 
-function Client({ clientId }) {
-    const [clientData, setClientData] = useState(); 
-    const [ouchButtonData, setOuchButtonData] = useState(); 
+function Client() {
+    let {clientId} = useParams();
+    const [listOfclientData, setlistOfClientData] = useState([]); 
+    const [listOfouchButtonData, setlistOfouchButtonData] = useState([]); 
+    const [listOfTherapistData, setlistOfTherapistData] = useState([]); 
     const [chartData, setChartData] = useState(); 
 
     const [mostCommonTime, setMostCommonTime] = useState(); 
 
     useEffect(() => {
-        const fetchClientData = async() => {
-            try {
-                const response = await api.get(`/api/get/client/${clientId}`); 
-                const clientData = response.data[0]; 
-                setClientData(clientData); 
-            } catch (err) {
-                if (err.response) {
-                    console.log(err.response.data); 
-                    console.log(err.response.status); 
-                    console.log(err.response.headers); 
-                } else {
-                    console.log(`Error: ${err.message}`); 
-                }
-            }
-        }
-
-        const fetchOuchButtonData = async () => {
-            try {
-                const response = await api.get(`/api/get/client/${clientId}/ouchbuttondata`); 
-                setOuchButtonData(response.data); 
-            } catch (err) {
-                if (err.response) {
-                    console.log(err.response.data); 
-                    console.log(err.response.status); 
-                    console.log(err.response.headers); 
-                } else {
-                    console.log(`Error: ${err.message}`); 
-                }
-            }
-        }
-
-        fetchClientData();
-        fetchOuchButtonData(); 
-    }, [])
+        axios.get("http://localhost:5000/clientdata").then((response) => {
+            setlistOfClientData(response.data);
+            //*console.log(response);
+        });
+    }, []);
 
     useEffect(() => {
-        if (ouchButtonData) {
+        axios.get("http://localhost:5000/ouchbuttondata").then((response) => {
+            setlistOfouchButtonData(response.data);
+            //*console.log(response);
+        });
+    }, []);
+
+    useEffect(() => {
+        axios.get("http://localhost:5000/therapist").then((response) => {
+            setlistOfTherapistData(response.data);
+            //*console.log(response);
+        });
+    }, []);
+
+    useEffect(() => {
+        const ouchButtonData = listOfouchButtonData.map((value, key) => value.Time);
+        
+        //*To make sure the list is both loaded and populated
+        if (ouchButtonData.length > 0) {
             const today = new Date(); 
             const oneWeekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000); 
             const filteredData = ouchButtonData.filter((entry) => {
-                const entryDate = new Date(entry.Time); 
+                const entryDate = new Date(entry); 
                 return entryDate >= oneWeekAgo && entryDate <= today;
             });
             const ouchButtonEntryCounts = {}; 
 
             filteredData.forEach((entry) => {
-                const entryDate = new Date(entry.Time); 
+                const entryDate = new Date(entry); 
                 const dayOfWeek = entryDate.getDay(); 
                 if (ouchButtonEntryCounts[dayOfWeek]) {
                     ouchButtonEntryCounts[dayOfWeek] += 1; 
@@ -78,11 +70,13 @@ function Client({ clientId }) {
             setChartData(newChartData); 
 
             //* Calculates the most common hour by sorting the 'timeOccurrences' object in descending order based on
-            /*  the occurence count and then retrieving the key (hour) from the first element of the sorted array.
-            */
+            //*  the occurence count and then retrieving the key (hour) from the first element of the sorted array.
+            
             const timeOccurrences = {}; 
+
             filteredData.forEach((entry) => {
-                const entryTime = new Date(entry.Time); 
+                
+                const entryTime = new Date(entry); 
                 const hour = entryTime.getHours(); 
                 if (timeOccurrences[hour]) {
                     timeOccurrences[hour] += 1; 
@@ -100,8 +94,10 @@ function Client({ clientId }) {
 
             return; 
         }
-    }, [ouchButtonData]);
+    }, [listOfouchButtonData]);
+
     
+
     var chartOptions = {
         scales: {
             y: {
@@ -124,9 +120,13 @@ function Client({ clientId }) {
 
     return (
         <div className="client">
+            <div className="search">
+                <h4 className="search__label"> Search:</h4>
+                <input type="text" name="client" />
+            </div>
             <div className="client-header">
                 <h4 className="client-header__subheading">User</h4>
-                <h1 className="client-header__heading">{clientData && clientData.ClientName}</h1>
+                <h1 className="client-header__heading">test</h1>
             </div>
             <div className="client-content">
                 <div className="client-metric">
@@ -137,6 +137,12 @@ function Client({ clientId }) {
                     {mostCommonTime ? <p>{mostCommonTime}</p> : <p>Loading...</p>}
                 </div>
             </div>
+            <h2>Testing connectivity to all tables</h2> {clientId}
+            {listOfclientData.map((value, key) => { return <div> {value.ClientName} </div>})}
+            <p>----------------------------------------------------------</p>
+            {listOfouchButtonData.map((value, key) => { return <div> {value.Time} </div>})}
+            <p>----------------------------------------------------------</p>
+            {listOfTherapistData.map((value, key) => { return <div> {value.TherapistEmail} </div>})}
         </div>
     ); 
 }
