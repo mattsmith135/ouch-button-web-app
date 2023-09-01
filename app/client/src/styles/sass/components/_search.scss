@@ -1,0 +1,36 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the Search component
+// -----------------------------------------------------------------------------
+
+.search {
+    @include container-flex;
+
+    margin: $main-content-margin-vertical $main-content-margin-horizontal;
+
+    flex-direction: column; 
+
+    &-header, &-content {
+        width: 100%; 
+    }
+}
+
+.search-wrapper {
+    @include container-flex;
+
+    flex-direction: column; 
+    width: 100%; 
+}
+
+.search-header {
+    text-align: center;
+
+    &__heading {
+        @include heading;
+    }
+
+    &__text {
+
+    }
+
+}
+

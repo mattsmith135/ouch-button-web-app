@@ -47,22 +47,22 @@ function calculateMostCommonTime(data) {
         }
     });
 
+    const formatAMPM = (time) => {
+        const hours = new Date(time).getHours(); 
+        const minutes = new Date(time).getMinutes(); 
+        const ampm = hours >= 12 ? "PM" : "AM"; 
+        const formattedHours = hours % 12 === 0 ? 12 : hours % 12; 
+        const formattedMinutes = minutes.toString().padStart(2, "0");
+    
+        return `${formattedHours}:${formattedMinutes} ${ampm}`;
+    }
+
     const sortedOccurrences = Object.entries(timeOccurrences).sort((a, b) => b[1] - a[1]);
     const mostCommonHour = sortedOccurrences[0][0]; 
 
     const mostCommonTimePeriod = formatAMPM(new Date().setHours(mostCommonHour)); 
 
     return mostCommonTimePeriod;
-}
-
-const formatAMPM = (time) => {
-    const hours = new Date(time).getHours(); 
-    const minutes = new Date(time).getMinutes(); 
-    const ampm = hours >= 12 ? "PM" : "AM"; 
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12; 
-    const formattedMinutes = minutes.toString().padStart(2, "0");
-
-    return `${formattedHours}:${formattedMinutes} ${ampm}`;
 }
 
 function Client() {
@@ -112,10 +112,6 @@ function Client() {
 
     return (
         <div className="client">
-            <div className="client-search">
-                <h4 className="client-search__label"> Search:</h4>
-                <input type="text" name="client" />
-            </div>
             <div className="client-header">
                 <h4 className="client-header__subheading">User</h4>
                 <h1 className="client-header__heading">test</h1>
@@ -128,13 +124,14 @@ function Client() {
                     <h3 className="client-metric__heading">Most common time period button was pressed</h3>
                     {mostCommonTime ? <p>{mostCommonTime}</p> : <p>Loading...</p>}
                 </div>
-            </div>
-            <h2>Testing connectivity to all tables</h2> {clientId}
-            {clientData.map((value) => { return <div key={value.ClientID}> {value.ClientName} </div>})}
-            <p>----------------------------------------------------------</p>
-            {ouchButtonData.map((value) => { return <div key={value.OuchButtonDataID}> {value.Time} </div>})}
-            <p>----------------------------------------------------------</p>
-            {therapistData.map((value) => { return <div key={value.TherapistID}> {value.TherapistEmail} </div>})}
+
+                <h2>Testing connectivity to all tables</h2> {clientId}
+                {clientData.map((value) => { return <div key={value.ClientID}> {value.ClientName} </div>})}
+                <p>----------------------------------------------------------</p>
+                {ouchButtonData.map((value) => { return <div key={value.OuchButtonDataID}> {value.Time} </div>})}
+                <p>----------------------------------------------------------</p>
+                {therapistData.map((value) => { return <div key={value.TherapistID}> {value.TherapistEmail} </div>})}
+                </div>
         </div>
     ); 
 }
