@@ -7,15 +7,6 @@
 #include <SoftwareSerial.h>
 #include <ezButton.h>
 
-//Timezone Adjustments
-const int timezone_hours = 10;
-const int timezone_minutes = 0;
-
-//Time values
-int hour;
-int minute;
-int second;
-
 //GPS RXD -> Uno TX. GPS TXD -> Uno RX
 static const int RXPin = 7, TXPin = 3;
 
@@ -40,7 +31,8 @@ File file;
  
  void setup() {
   Serial.begin(9600);
-  limitSwitch.setDebounceTime(75); 
+
+  limitSwitch.setDebounceTime(10); 
   ss.begin(GPSBaud);
   
   while (!Serial){
@@ -120,10 +112,8 @@ void writeToSD(){
   file.print(" ");
   if (gps.time.isValid())
   {
-    timeZoneAdjustment();
-    
-    if (hour < 10) file.print("0");
-    file.print(hour);
+    if (gps.time.hour() < 10) file.print("0");
+    file.print(gps.time.hour());
     file.print(":");
     if (gps.time.minute() < 10) file.print("0");
     file.print(gps.time.minute());
@@ -144,18 +134,6 @@ void writeToSD(){
   Serial.println("Writing to SD card successful");
   file.close();
   displayInfo();
-}
-
-void timeZoneAdjustment()
-{
-  hour = gps.time.hour();
-  minute = gps.time.minute();
-  second = gps.time.second();
-
-  hour = hour + timezone_hours;
-  if(hour >= 24){
-    hour = hour - 24;
-  }
 }
 
 void displayInfo()
@@ -189,9 +167,8 @@ void displayInfo()
   Serial.print(F(" "));
   if (gps.time.isValid())
   {
-    timeZoneAdjustment();
-    if (hour < 10) Serial.print(F("0"));
-    Serial.print(hour);
+    if (gps.time.hour() < 10) Serial.print(F("0"));
+    Serial.print(gps.time.hour());
     Serial.print(F(":"));
     if (gps.time.minute() < 10) Serial.print(F("0"));
     Serial.print(gps.time.minute());
