@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {therapistdata} = require('../models');
+const { therapistdata } = require('../models');
 
 router.get('/', async (req, res) => {
     const response = await therapistdata.findAll();
