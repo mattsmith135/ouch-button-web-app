@@ -31,6 +31,7 @@ File file;
  
  void setup() {
   Serial.begin(9600);
+
   limitSwitch.setDebounceTime(10); 
   ss.begin(GPSBaud);
   

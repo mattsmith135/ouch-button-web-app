@@ -1,4 +1,4 @@
-CREATE TABLE Therapist (
+CREATE TABLE TherapistData (
   TherapistID INT(10) NOT NULL AUTO_INCREMENT,
   TherapistName VARCHAR(100),
   TherapistEmail VARCHAR(100),
@@ -6,13 +6,13 @@ CREATE TABLE Therapist (
   PRIMARY KEY (TherapistID)
 );
 
-CREATE TABLE Client (
+CREATE TABLE ClientData (
   ClientID INT(10) NOT NULL AUTO_INCREMENT,
   ClientName VARCHAR(100),
   ClientOuchButton INT(10),
   TherapistID INT(10),
   PRIMARY KEY (ClientID),
-  FOREIGN KEY (TherapistID) REFERENCES Therapist(TherapistID)
+  FOREIGN KEY (TherapistID) REFERENCES TherapistData(TherapistID)
 );
 
 CREATE TABLE OuchButtonData (
@@ -22,5 +22,5 @@ CREATE TABLE OuchButtonData (
   Time TIMESTAMP,
   ClientID INT(10),
   PRIMARY KEY (OuchButtonDataID),
-  FOREIGN KEY (ClientID) REFERENCES Client(ClientID)
+  FOREIGN KEY (ClientID) REFERENCES ClientData(ClientID)
 );
