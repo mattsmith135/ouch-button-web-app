@@ -126,11 +126,11 @@ function Client() {
                 </div>
 
                 <h2>Testing connectivity to all tables</h2> {clientId}
-                {clientData.map((value) => { return <div key={value.ClientID}> {value.ClientName} </div>})}
+                {clientData.map((item) => { return <div key={item.ClientID}> {item.ClientName} </div>})}
                 <p>----------------------------------------------------------</p>
-                {ouchButtonData.map((value) => { return <div key={value.OuchButtonDataID}> {value.Time} </div>})}
+                {ouchButtonData.map((item) => { return <div key={item.OuchButtonDataID}> {item.Time} </div>})}
                 <p>----------------------------------------------------------</p>
-                {therapistData.map((value) => { return <div key={value.TherapistID}> {value.TherapistEmail} </div>})}
+                {therapistData.map((item) => { return <div key={item.TherapistID}> {item.TherapistEmail} </div>})}
                 </div>
         </div>
     ); 
