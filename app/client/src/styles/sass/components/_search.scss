@@ -70,6 +70,10 @@
         border-bottom: 1px solid #ddd; 
     }
 
+    tr {
+        cursor: pointer; 
+    }
+
     tr:last-child td {
         border-bottom: none;
     }

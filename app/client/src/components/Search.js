@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import Client from "./Client";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; 
 
 function Search() {
     const [clientData, setclientData] = useState([]);
@@ -23,13 +23,17 @@ function Search() {
         fetchData();
     }, []);
 
+    const navigate = useNavigate(); 
+
+    const handleRowClick = (clientId) => {
+        navigate(`/client/${clientId}`); 
+    }
+
     return (
-        // FLOW TO IMPLEMENT
-        // 1. User enters an identifier (ie. name, id, email etc.) into the search field
-        // 2. A list is displayed containing clients who's properties match the search query
-        // 3. The user selects a client from the list
-        // 4. A client component is created. The ID of the selected client is passed-in as a prop to the Client component
-        // 5. User is redirected to Client component page
+        // FLOW
+        // 1. User enters an identifier (name or id) into the search field
+        // 2. Client data is pulled and a list is filted based on search query and then displayed
+        // 3. User selects client from the list and is redirected to the client page showing this client's specific information
         
         <div className="search">
             <div className="search-wrapper">
@@ -43,7 +47,7 @@ function Search() {
                 </div>
                 <div className="search-content">
                     <div className="search-bar">
-                        <label>Search client:</label>
+                        <label>Search:</label>
                         <input onChange={(e) => setSearch(e.target.value.toLowerCase())} type="search" id="client" name="client" />
                         <button>Search</button>
                     </div>
@@ -58,13 +62,12 @@ function Search() {
                         </thead>
                         <tbody>
                             {clientData
-                                .filter((item) => {
-                                    return search.toLowerCase() === ''
-                                        ? item
-                                        : item.ClientName.toLowerCase().includes(search); 
-                                })
+                                .filter((item) => 
+                                    item.ClientName.toLowerCase().includes(search) ||
+                                    item.ClientID.toString() === search.toLowerCase()
+                                )
                                 .map((item) => (
-                                    <tr key={item.ClientID}>
+                                    <tr key={item.ClientID} className="clickable-row" onClick={() => handleRowClick(item.ClientID)}>
                                         <td>{item.ClientID}</td>
                                         <td>{item.ClientName}</td>
                                         <td>{item.ClientOuchButton}</td>
@@ -77,8 +80,6 @@ function Search() {
                 </div>
             </div>
         </div>
-
-        /*<Client clientId={clientId} />*/
     );
 }
 
