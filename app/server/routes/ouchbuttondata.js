@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {ouchbuttondata} = require('../models');
+const { ouchbuttondata } = require('../models');
 
 router.get('/', async (req, res) => {
     const response = await ouchbuttondata.findAll();

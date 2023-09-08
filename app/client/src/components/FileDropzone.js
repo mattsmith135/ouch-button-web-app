@@ -1,19 +1,26 @@
-import React from 'react'; 
+import React, { useState } from 'react'; 
 import { useDropzone } from 'react-dropzone';
 import {ReactComponent as UploadIcon} from '../assets/upload-icon.svg'; 
+import axios from "axios"; 
 
-function FileDropzone(props) {
+function FileDropzone() {
+    const [file, setFile] = useState(null); 
+
     const {
         acceptedFiles,
         fileRejections,
         getRootProps,
         getInputProps,
-        isFocused,
-        isDragAccept, 
-        isDragReject
     } = useDropzone({
         accept: {
-            'text/csv':['.csv'],
+            'text/plain':['.txt'],
+            // 'text/csv':['.csv'],
+        },
+        onDrop: (acceptedFiles) => {
+            // Store the first accepted file in the 'file' state variable
+            if (acceptedFiles.length > 0) {
+                setFile(acceptedFiles[0]);
+            }
         }
     }); 
 
@@ -34,19 +41,41 @@ function FileDropzone(props) {
         </li>
     ));
 
+    const handleFileUpload = async () => {
+        if (file) {
+            const formData = new FormData();
+            formData.append("name", file.path); 
+            formData.append("file", file); 
+            const url = "http://localhost:5000/api/upload";
+
+            try {
+                await axios.post(url, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }); 
+                console.log("File uploaded successfully"); 
+            } catch (error) {
+                console.error("Error uploading file:", error); 
+            }
+        } else {
+            console.error("No file to upload"); 
+        }
+    }
+
     return (
         <div className="file-dropzone-wrapper">
             <div
                 className="file-dropzone"
-                {...getRootProps({ isFocused, isDragAccept, isDragReject })}
-                isdragaccept={isDragAccept.toString()}
-                isdragreject={isDragReject.toString()}
-                isfocused={isFocused.toString()}
+                {...getRootProps()}
             >
                 <input {...getInputProps()} /> 
-                <UploadIcon className="file-dropzone__icon" /> 
-                <p className="file-dropzone__text">Drag 'n' drop some files here, or click to select files</p>
+                <UploadIcon className="file-dropzone__icon" />
+                <p className="file-dropzone__text">
+                    Drag 'n' drop some files here, or click to select files
+                </p>
                 <em>(Only *.csv files will be accepted)</em>
+                
             </div>
             <aside className="uploaded-files">
                 <h4 className="uploaded-files__heading">Accepted files</h4>
@@ -54,6 +83,7 @@ function FileDropzone(props) {
                 <h4 className="uploaded-files__heading">Rejected files</h4>
                 <ul className="uploaded-files__list">{fileRejectionItems}</ul>
             </aside>
+            <button onClick={handleFileUpload}>Upload File</button> 
         </div>
     )
 }
