@@ -1,0 +1,84 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the Search component
+// -----------------------------------------------------------------------------
+
+.search {
+    @include container-flex;
+
+    margin: $main-content-margin-vertical $main-content-margin-horizontal;
+
+    flex-direction: column; 
+
+    &-header, &-content {
+        width: 100%; 
+    }
+}
+
+.search-wrapper {
+    @include container-flex;
+
+    flex-direction: column; 
+    width: 100%; 
+}
+
+.search-header {
+    text-align: center;
+
+    &__heading {
+        @include heading;
+    }
+
+    &__text {
+
+    }
+}
+
+.search-content {
+    @include container-flex;
+
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.search-bar {
+
+    input[type="search"] {
+        padding: 8px;
+        margin: 0rem 0.5rem;
+    }
+
+    button {
+        @include btn;
+    }
+}
+
+/* Style for the table */
+.table {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    width: 100%; 
+
+    th {
+        background-color: #f2f2f2; 
+        text-align: left;
+        padding: 10px;
+        border-bottom: 1px solid #ddd 
+    }
+
+    td {
+        padding: 8px;
+        border-bottom: 1px solid #ddd; 
+    }
+
+    tr {
+        cursor: pointer; 
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #f9f9f9; 
+    }
+}

@@ -4,85 +4,51 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const ouchbuttondataRouter = require('./routes/ouchbuttondata');
 const clientdataRouter = require('./routes/clientdata');
-const therapistRouter = require('./routes/therapist');
+const therapistdataRouter = require('./routes/therapistdata');
 const port = process.env.EXPRESS_PORT || 5000;
 const db = require('./models');
-
-app.use(cors()); 
-app.use('/ouchbuttondata', ouchbuttondataRouter);
-app.use('/clientdata', clientdataRouter);
-app.use('/therapist', therapistRouter);
-app.use(express.json()); 
-app.use(bodyParser.urlencoded({ extended: true })); 
-
-
-//Routers
-
+const multer = require('multer');
+const path = require('path'); 
 
 require('dotenv').config(); 
 
+// Routers
+app.use(cors()); 
+app.use('/ouchbuttondata', ouchbuttondataRouter);
+app.use('/clientdata', clientdataRouter);
+app.use('/therapistdata', therapistdataRouter);
+app.use(express.json()); 
+app.use(bodyParser.urlencoded({ extended: true })); 
 
-
-
-/*const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root', 
-    password: '', 
-    port: process.env.MYSQL_PORT | 3306,
-    database: 'ouch_button',
-});*/
-
-
-
-
-
+// Sequelize
 db.sequelize.sync().then(() => {
     app.listen(port, () => {
         console.log(`Server is running on port: ${port}`);
     }); 
 });
 
-//Sequelize
+// Define a storage engine for Multer to store uploaded files
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-/*db.connect((err) => {
-    if (err) {
-        console.error('Error connecting to MySQL database', err); 
-    } else {
-        console.log('Connected to MySQL database'); 
+// Route for handling file uploads
+app.post('/api/upload', upload.single('file'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
+
+        // Process the uploaded file 
+        const content = req.file.buffer.toString();
+        
+        console.log(content); 
+
+        // Insert into Sequelize model
+        // TBC
+
+        // res.status(200).json({ message: 'File uploaded and data inserted', result }); 
+    } catch (error) {
+        console.error('Error uploading file:', error)
+        res.status(500).json({ message: 'Error uploading file' }); 
     }
-}); */
-
-// Define API Routes
-/*app.get('/api/get/client/:clientId', (req, res) => {
-    const clientId = req.params.clientId; 
-    
-    const sqlSelect = `SELECT * FROM client WHERE clientID = ${clientId}`; 
-    
-    db.query(sqlSelect, (err, result) => {
-        if (err) {
-            console.log(err); 
-            res.sendStatus(500); 
-            return; 
-        }
-        res.send(result); 
-    }); 
-});
-
-app.get('/api/get/client/:clientId/ouchbuttondata', (req, res) => {
-    const clientId = req.params.clientId;
-
-    const sqlSelect = `SELECT * FROM ouchbuttondata WHERE clientID = ${clientId}`; 
-
-    db.query(sqlSelect, (err, result) => {
-        if (err) {
-            console.log(err); 
-            res.sendStatus(500); 
-            return; 
-        }
-        res.send(result); 
-    });
-});
-
-
-
-// Start server*/
+})

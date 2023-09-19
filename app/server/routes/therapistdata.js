@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { ouchbuttondata } = require('../models');
+const { therapistdata } = require('../models');
 
 router.get('/', async (req, res) => {
-    const response = await ouchbuttondata.findAll();
+    const response = await therapistdata.findAll();
     res.json(response);
 });
 
 router.post('/', async (req, res) => {
-    const newouchbuttondata = req.body;
-    await ouchbuttondata.create(newouchbuttondata);
+    const newTherapistData = req.body;
+    await therapistdata.create(newTherapistData);
 });
 
 module.exports = router;

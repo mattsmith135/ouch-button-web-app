@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const {clientdata} = require('../models');
+const { clientdata } = require('../models');
 
 router.get('/', async (req, res) => {
-    const listOfclientData = await clientdata.findAll();
-    res.json(listOfclientData);
+    const response = await clientdata.findAll();
+    res.json(response);
 });
 
 router.post('/', async (req, res) => {

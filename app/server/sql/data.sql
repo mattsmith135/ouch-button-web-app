@@ -1,5 +1,5 @@
 -- Insert dummy data for the Therapist table
-INSERT INTO Therapist (TherapistName, TherapistEmail, TherapistPassword)
+INSERT INTO TherapistData (TherapistName, TherapistEmail, TherapistPassword)
 VALUES
 ('John Doe', 'johndoe@example.com', 'password123'),
 ('Jane Smith', 'janesmith@example.com', 'letmein'),
@@ -8,7 +8,7 @@ VALUES
 ('David Lee', 'davidlee@example.com', 'password');
 
 -- Insert dummy data for the Client table
-INSERT INTO Client (ClientName, ClientOuchButton, TherapistID)
+INSERT INTO ClientData (ClientName, ClientOuchButton, TherapistID)
 VALUES
 ('Alice Brown', 1, 1),
 ('Bob Green', 2, 1),
