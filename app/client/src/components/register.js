@@ -1,6 +1,22 @@
 import React from 'react'
 
 function register(){
+
+    app.post('/register', checkNotAuthenticated, async (req, res) => {
+        try {
+          const hashedPassword = await bcrypt.hash(req.body.password, 10)
+          users.push({
+            id: Date.now().toString(),
+            name: req.body.name,
+            email: req.body.email,
+            password: hashedPassword
+          })
+          res.redirect('/login')
+        } catch {
+          res.redirect('/register')
+        }
+      })
+
     return(
         <div>
             <h1>Register</h1>
@@ -26,3 +42,5 @@ function register(){
 </div>
 )
 }
+
+export default register
