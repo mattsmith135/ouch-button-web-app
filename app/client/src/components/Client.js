@@ -112,6 +112,10 @@ function Client() {
 
     return (
         <div className="client">
+            <div className="search">
+                <h4 className="search__label"> Search:</h4>
+                <input type="text" name="client" />
+            </div>
             <div className="client-header">
                 <h4 className="client-header__subheading">User</h4>
                 <h1 className="client-header__heading">test</h1>
