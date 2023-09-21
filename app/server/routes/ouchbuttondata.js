@@ -13,7 +13,15 @@ router.get('/:clientId', async (req,res) => {
     res.json(data);
 })
 
-router.post('/', async (req, res) => {
+router.get('/:clientId/:dayId', async (req,res) => {
+    const clientId = req.params.clientId;
+    const dayId = decodeURIComponent(req.params.dayId);
+    const data = await ouchbuttondata.findAll({ where: {ClientId: clientId, Time: dayId}});
+    
+    res.json(data);
+})
+
+router.post('/', async (req, res) => { 
     const newouchbuttondata = req.body;
     await ouchbuttondata.create(newouchbuttondata);
 });

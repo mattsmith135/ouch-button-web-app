@@ -3,37 +3,176 @@ import { useParams } from "react-router-dom";
 import BarChart from "./BarChart";
 import axios from "axios";
 
-function calculateChartData(data) {
-    //* Creates a hashmap containing key value pairs of weekday to number of button presses.
-    //* Hashmap is then converted to chart data and displayed on a bar chart.
-    const pressesPerDayHashMap = {}; 
+// function to return just the date in a datetime string
+function findDate(dateTimeString){
+    const date = new Date(dateTimeString);
+
+    //Format correctly
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+}
+
+//fuction to return just the hour from a datetime string
+function findHour(dateTimeString) {
+    const date = new Date(dateTimeString);
+    const hour = String(date.getHours()).padStart(2, "0");
+    return `${hour}`;
+  }
+
+//function to return just the minutes from a datetime string
+function findMinutes(dateTimeString){
+    const date = new Date(dateTimeString);
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${minutes}`;
+}
+
+//function to return the day of the week in words
+function findDay(number){
+    if(number === 0){
+        return "Sunday";
+    }
+    else if(number === 1){
+        return "Monday";
+    }
+    else if(number === 2){
+        return "Tuesday";
+    }
+    else if(number === 3){
+        return "Wednesday";
+    }
+    else if(number === 4){
+        return "Thursday";
+    }
+    else if(number === 5){
+        return "Friday";
+    }
+    else{
+        return "Saturday";
+    }
+}
+
+//function to get an array of dates of the previous week
+function getLastWeekDates(){
+    // Dealing with the DATES of throughout the previous week
+
+    const today = new Date(); // Get the current date
+    //const todaysDate = findDate(today); // Get just the date of today without the hours
+
+    const lastweek = new Date(); // Created to store the date of 7 days ago
+    lastweek.setDate(today.getDate() - 6);// Setting to 1 week ago
+
+    const rangeOfDates = []; // To store the dates from last week all the way to today
+
+    let counterDate = new Date(lastweek); // variable used to control the loop below used to populate an array of dates from last week to today
+
+    // populate the array with the week's dates
+    while (counterDate <= today){
+        rangeOfDates.push(findDate(counterDate));// Push only the date and not the time to make it simpler
+        counterDate.setDate(counterDate.getDate() + 1);
+    }
+    return rangeOfDates;
+}
+
+//function to get an array of days of the previous week
+function getLastWeekDays(){
+
+    // Dealing with the DAYS throughout the previous week
+
+    const today = new Date();
+    const lastweek = new Date(); // Created to store the date of 7 days ago
+    lastweek.setDate(today.getDate() - 6);
+    const dayOfWeek = today.getDay(); // Get the current day of the week in number form
+    const dayOfLastWeek = lastweek.getDay();
+
+    const rangeOfDays = [];
+
+    let counterDay = dayOfLastWeek // variable used to control the loop below used to populate an array of days from last week to today
+
+    while(counterDay !== dayOfWeek){
+        if(counterDay === 7){
+            counterDay = 0;
+        }
+        rangeOfDays.push(findDay(counterDay)); //convert to words before pushing
+        counterDay += 1;
+    }
+
+    return rangeOfDays
+}
+
+//function to filter out the ouchButtonData to only return objects within the date range
+function getFilteredData(data){
+
+    let index = 0;
+    const rangeOfDates = getLastWeekDates();
+    const filteredData = []
 
     data.forEach((entry) => {
-        const entryDate = new Date(entry); 
-        const dayOfWeek = entryDate.getDay(); 
-        if (pressesPerDayHashMap[dayOfWeek]) {
-            pressesPerDayHashMap[dayOfWeek] += 1; 
-        } else {
-            pressesPerDayHashMap[dayOfWeek] = 1; 
+
+        while(index < rangeOfDates.length){
+            if(findDate(entry.Time) === rangeOfDates[index]){
+                filteredData.push(entry);
+            }
+
+
+            index = index + 1;
         }
+
+        index = 0;
+        
+    });
+
+    return filteredData;
+}
+
+function calculateChartData(data) {
+
+    const rangeOfDates = getLastWeekDates();
+    const rangeOfDays = getLastWeekDays();
+    
+    // Comparing the dates of the data and the dates in the predetermined range
+
+    let index = 0; //variable used to control the loop below
+
+    const rangeOfPresses = [0, 0, 0, 0, 0, 0, 0];
+
+    
+    data.forEach((entry) => {
+
+        //every entry's Time attribute is checked against every date in range
+        while(index < rangeOfDates.length){
+            
+            if(findDate(entry.Time) === rangeOfDates[index]){
+                rangeOfPresses[index] += 1;
+            }
+            index = index + 1;
+        } 
+
+        //reset to refresh the while loop for the next iteration of entry
+        index = 0;
+        
     });
 
     const newChartData = {
-        labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        labels: rangeOfDays,
         datasets: [
             {
                 label: "Number of Ouch Button Presses This Week",
-                data: Object.values(pressesPerDayHashMap),
+                data: rangeOfPresses,
+                links: rangeOfDates,
             },
         ],
-    }
+    };
 
     return newChartData;
 }
 
+
 function calculateMostCommonTime(data) {
-    //* Calculates the most common hour by sorting the 'timeOccurrences' object in descending order based on
-    //*  the occurence count and then retrieving the key (hour) from the first element of the sorted array.
+    // Get all the times in the given data
+
+    const filteredData = getFilteredData(data);
     
     const timeOccurrences = {}; 
 
@@ -65,6 +204,19 @@ function calculateMostCommonTime(data) {
     return mostCommonTimePeriod;
 }
 
+//*format day back into datetime to use for individual day data display when bar chart is clicked
+function formatDateToLabel(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+  
+
 function Client() {
     let { clientId } = useParams();
     const [clientData, setclientData] = useState(); 
@@ -85,23 +237,11 @@ function Client() {
     
             setclientData(clientRes.data);
             setouchButtonData(ouchButtonRes.data);
-            console.log();
             settherapistData(therapistRes.data);
 
-            //* Filtering ouch button press dates for only dates within one week range.
-            const ouchButtonEntryDates = ouchButtonRes.data.map((value) => value.Time);
-            const today = new Date(); 
-            const oneWeekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000); 
-            const filteredData = ouchButtonEntryDates.filter((entry) => {
-                const entryDate = new Date(entry); 
-                return entryDate >= oneWeekAgo && entryDate <= today;
-            });
+            const mostCommonTime = 7; 
 
-            //* Passing filtered data into time and chart data functions accordingly.
-            const chartData = calculateChartData(filteredData); 
-            const mostCommonTime = calculateMostCommonTime(filteredData); 
-
-            setChartData(chartData); 
+            setChartData(calculateChartData(ouchButtonRes.data)); 
             setMostCommonTime(mostCommonTime); 
           } catch (err) {
             setError("Error fetching data.");
@@ -109,7 +249,7 @@ function Client() {
         };
     
         fetchData();
-    }, []);
+    }, []); 
 
     return (
         <div className="client">
@@ -119,19 +259,13 @@ function Client() {
             </div>
             <div className="client-content">
                 <div className="client-metric">
-                    {chartData && <BarChart chartData={chartData} />}
+                    {chartData && <BarChart chartData={chartData} clientId={clientId}/>} 
                 </div>
                 <div className="client-metric">
                     <h3 className="client-metric__heading">Most common time period button was pressed</h3>
                     {mostCommonTime ? <p>{mostCommonTime}</p> : <p>Loading...</p>}
                 </div>
 
-                <h2>Testing connectivity to all tables</h2> <div><div>{clientData ? clientData.ClientID : null}</div>
-</div>
-
-                <p>----------------------------------------------------------</p>
-                {ouchButtonData.map((item) => { return <div key={item.OuchButtonDataID}> {item.Time} </div>})}
-                <p>----------------------------------------------------------</p>
                 {therapistData.map((item) => { return <div key={item.TherapistID}> {item.TherapistEmail} </div>})}
                 </div>
         </div>
