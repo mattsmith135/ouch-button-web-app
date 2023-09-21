@@ -67,7 +67,7 @@ function calculateMostCommonTime(data) {
 
 function Client() {
     let { clientId } = useParams();
-    const [clientData, setclientData] = useState([]); 
+    const [clientData, setclientData] = useState(); 
     const [ouchButtonData, setouchButtonData] = useState([]); 
     const [therapistData, settherapistData] = useState([]); 
     const [chartData, setChartData] = useState(); 
@@ -78,13 +78,14 @@ function Client() {
         const fetchData = async () => {
           try {
             const [clientRes, ouchButtonRes, therapistRes] = await Promise.all([
-              axios.get("http://localhost:5000/clientdata"),
-              axios.get("http://localhost:5000/ouchbuttondata"),
+              axios.get(`http://localhost:5000/clientdata/${clientId}`),
+              axios.get(`http://localhost:5000/ouchbuttondata/${clientId}`),
               axios.get("http://localhost:5000/therapistdata"),
             ]);
     
             setclientData(clientRes.data);
             setouchButtonData(ouchButtonRes.data);
+            console.log();
             settherapistData(therapistRes.data);
 
             //* Filtering ouch button press dates for only dates within one week range.
@@ -112,13 +113,9 @@ function Client() {
 
     return (
         <div className="client">
-            <div className="search">
-                <h4 className="search__label"> Search:</h4>
-                <input type="text" name="client" />
-            </div>
             <div className="client-header">
                 <h4 className="client-header__subheading">User</h4>
-                <h1 className="client-header__heading">test</h1>
+                {clientData ? <h1 className="client-header__heading">{clientData.ClientName}</h1> : <h1 className="client-header__heading">Loading</h1>}
             </div>
             <div className="client-content">
                 <div className="client-metric">
@@ -129,8 +126,9 @@ function Client() {
                     {mostCommonTime ? <p>{mostCommonTime}</p> : <p>Loading...</p>}
                 </div>
 
-                <h2>Testing connectivity to all tables</h2> {clientId}
-                {clientData.map((item) => { return <div key={item.ClientID}> {item.ClientName} </div>})}
+                <h2>Testing connectivity to all tables</h2> <div><div>{clientData ? clientData.ClientID : null}</div>
+</div>
+
                 <p>----------------------------------------------------------</p>
                 {ouchButtonData.map((item) => { return <div key={item.OuchButtonDataID}> {item.Time} </div>})}
                 <p>----------------------------------------------------------</p>
