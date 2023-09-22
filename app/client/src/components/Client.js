@@ -19,13 +19,6 @@ function findHour(dateTimeString) {
     const date = new Date(dateTimeString);
     const hour = String(date.getHours()).padStart(2, "0");
     return `${hour}`;
-  }
-
-//function to return just the minutes from a datetime string
-function findMinutes(dateTimeString){
-    const date = new Date(dateTimeString);
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    return `${minutes}`;
 }
 
 //function to return the day of the week in words
@@ -97,10 +90,23 @@ function getLastWeekDays(){
         rangeOfDays.push(findDay(counterDay)); //convert to words before pushing
         counterDay += 1;
     }
-
     return rangeOfDays
 }
 
+//function to format an hour into am or pm
+function formatAmPm(hour){
+
+    let ampm = "AM";
+
+    if(hour > 12){
+        hour -= 12;
+        ampm = "PM";
+    }
+
+    return hour + ampm;
+
+}
+ 
 //function to filter out the ouchButtonData to only return objects within the date range
 function getFilteredData(data){
 
@@ -112,6 +118,7 @@ function getFilteredData(data){
 
         while(index < rangeOfDates.length){
             if(findDate(entry.Time) === rangeOfDates[index]){
+                
                 filteredData.push(entry);
             }
 
@@ -125,12 +132,13 @@ function getFilteredData(data){
 
     return filteredData;
 }
-
+ 
+//function to appropriately populate the chart data
 function calculateChartData(data) {
 
     const rangeOfDates = getLastWeekDates();
     const rangeOfDays = getLastWeekDays();
-    
+
     // Comparing the dates of the data and the dates in the predetermined range
 
     let index = 0; //variable used to control the loop below
@@ -144,7 +152,7 @@ function calculateChartData(data) {
         while(index < rangeOfDates.length){
             
             if(findDate(entry.Time) === rangeOfDates[index]){
-                rangeOfPresses[index] += 1;
+                rangeOfPresses[index] += 1; 
             }
             index = index + 1;
         } 
@@ -154,68 +162,67 @@ function calculateChartData(data) {
         
     });
 
-    const newChartData = {
-        labels: rangeOfDays,
-        datasets: [
-            {
-                label: "Number of Ouch Button Presses This Week",
-                data: rangeOfPresses,
-                links: rangeOfDates,
-            },
-        ],
-    };
+    //This is the actual part where everything is taken and set to be used by the charts
 
-    return newChartData;
+        const newChartData = {
+            labels: rangeOfDays, //Names of days under each bar
+            datasets: [
+                {
+                    label: "Number of Ouch Button Presses This Week", 
+                    data: rangeOfPresses, //how high each bar goes
+                    links: rangeOfDates, //dates returned unique to each bar when the bar is clicked. To be used as dayId for the Daily component
+                },
+            ],
+        };
+    
+        return newChartData;
+        
 }
 
-
+//function to find the most common hour in an array
 function calculateMostCommonTime(data) {
     // Get all the times in the given data
 
     const filteredData = getFilteredData(data);
     
-    const timeOccurrences = {}; 
+    const hours = []; 
 
-    data.forEach((entry) => {
-        const entryTime = new Date(entry); 
-        const hour = entryTime.getHours(); 
-        if (timeOccurrences[hour]) {
-            timeOccurrences[hour] += 1; 
-        } else {
-            timeOccurrences[hour] = 1;
-        }
+    // Put the hours of each of the filtered data in a list to sort and find the most common
+    filteredData.forEach((entry) => {
+        hours.push(findHour(entry.Time));
     });
 
-    const formatAMPM = (time) => {
-        const hours = new Date(time).getHours(); 
-        const minutes = new Date(time).getMinutes(); 
-        const ampm = hours >= 12 ? "PM" : "AM"; 
-        const formattedHours = hours % 12 === 0 ? 12 : hours % 12; 
-        const formattedMinutes = minutes.toString().padStart(2, "0");
     
-        return `${formattedHours}:${formattedMinutes} ${ampm}`;
-    }
+    //sort into descending order to make it easier to find the most common time
+    hours.sort((a,b) => b -a);
 
-    const sortedOccurrences = Object.entries(timeOccurrences).sort((a, b) => b[1] - a[1]);
-    const mostCommonHour = sortedOccurrences[0][0]; 
+    let index = 0;
+    let frequency = 1;
+    let mostCommonFrequency = 1;
+    let mostCommonTime = hours[0];
 
-    const mostCommonTimePeriod = formatAMPM(new Date().setHours(mostCommonHour)); 
-
-    return mostCommonTimePeriod;
-}
-
-//*format day back into datetime to use for individual day data display when bar chart is clicked
-function formatDateToLabel(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
     
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  }
-  
+    while(index < [hours.length - 1]){
+
+        if(hours[index] === hours[index + 1]){
+            frequency += 1;
+
+            if(frequency > mostCommonFrequency){
+                mostCommonFrequency = frequency;
+                mostCommonTime = hours[index];
+            }
+        }
+        else{
+            frequency = 1;
+        }
+
+        index += 1;
+        
+    }; 
+
+    return mostCommonTime;
+        
+} 
 
 function Client() {
     let { clientId } = useParams();
@@ -226,30 +233,38 @@ function Client() {
     const [mostCommonTime, setMostCommonTime] = useState(); 
     const [error, setError] = useState(null)
 
+    //taking the data from the database and sorting them where they need to go
     useEffect(() => {
+
         const fetchData = async () => {
-          try {
+        try {
             const [clientRes, ouchButtonRes, therapistRes] = await Promise.all([
-              axios.get(`http://localhost:5000/clientdata/${clientId}`),
-              axios.get(`http://localhost:5000/ouchbuttondata/${clientId}`),
-              axios.get("http://localhost:5000/therapistdata"),
+            axios.get(`http://localhost:5000/clientdata/${clientId}`),
+            axios.get(`http://localhost:5000/ouchbuttondata/${clientId}`),
+            axios.get("http://localhost:5000/therapistdata"),
             ]);
-    
-            setclientData(clientRes.data);
+
+            //DO NOT MOVE THIS CODE IT WILL BREAK THE CHART ON REFRESH IDK WHY. IT MUST BE AS EARLY AS POSSIBLE AFTER THE AXIOS STUFF
+            setChartData(calculateChartData(ouchButtonRes.data));
+
+            setclientData(clientRes.data); 
             setouchButtonData(ouchButtonRes.data);
-            settherapistData(therapistRes.data);
+            settherapistData(therapistRes.data);//not currently used
+            
+            // Calculate the most common time after setting ouchButtonData
+            const mostCommonTime = calculateMostCommonTime(getFilteredData(ouchButtonRes.data)); 
 
-            const mostCommonTime = 7; 
-
-            setChartData(calculateChartData(ouchButtonRes.data)); 
+            
             setMostCommonTime(mostCommonTime); 
-          } catch (err) {
+            
+        } catch (err) {
             setError("Error fetching data.");
-          }
+        } 
         };
-    
+
         fetchData();
     }, []); 
+
 
     return (
         <div className="client">
@@ -260,14 +275,12 @@ function Client() {
             <div className="client-content">
                 <div className="client-metric">
                     {chartData && <BarChart chartData={chartData} clientId={clientId}/>} 
+                </div> 
+                <div className="client-metric"> 
+                    <h3 className="client-metric__heading">This week, the button was pressed most around:</h3>
+                    {formatAmPm(mostCommonTime) ? <p>{formatAmPm(mostCommonTime)}</p> : <p>Loading...</p>}
                 </div>
-                <div className="client-metric">
-                    <h3 className="client-metric__heading">Most common time period button was pressed</h3>
-                    {mostCommonTime ? <p>{mostCommonTime}</p> : <p>Loading...</p>}
-                </div>
-
-                {therapistData.map((item) => { return <div key={item.TherapistID}> {item.TherapistEmail} </div>})}
-                </div>
+            </div>
         </div>
     ); 
 }

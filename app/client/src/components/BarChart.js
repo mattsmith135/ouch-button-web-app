@@ -30,12 +30,12 @@ function BarChart({ chartData, clientId }) {
             navigate(`/client/${clientId}/${dayId}`); 
         }
 
-        
-        
     }
 
     return (
+
         <Bar className="barchart" data={chartData} options={chartOptions} onClick={onClick} ref = {chartRef}/>
+        
     )
 }
 
