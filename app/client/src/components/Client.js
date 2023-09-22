@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, forwardRef } from "react"; 
 import { useParams } from "react-router-dom";
 import BarChart from "./BarChart";
 import axios from "axios";
@@ -133,20 +133,13 @@ function getFilteredData(data){
 
     return filteredData;
 }
- 
-//function to appropriately populate the chart data
-function calculateChartData(data) {
 
-    const rangeOfDates = getLastWeekDates();
-    const rangeOfDays = getLastWeekDays();
+//function to return an array of button presses. 1 for each day of the week. Intended for use by calculateChartData() and maybe by another function that returns simply the highest amount of button presses in a day in the last week. This has not yet been implemented
+function getArrayOfPresses(data, rangeOfDates){
 
-    // Comparing the dates of the data and the dates in the predetermined range
-
-    let index = 0; //variable used to control the loop below
-
+    let index = 0; 
     const rangeOfPresses = [0, 0, 0, 0, 0, 0, 0];
 
-    
     data.forEach((entry) => {
 
         //every entry's Time attribute is checked against every date in range
@@ -163,7 +156,16 @@ function calculateChartData(data) {
         
     });
 
-    //This is the actual part where everything is taken and set to be used by the charts
+    return rangeOfPresses;
+}
+ 
+//function to appropriately populate the chart data
+function calculateChartData(data) {
+
+    const rangeOfDates = getLastWeekDates();
+    const rangeOfDays = getLastWeekDays();
+    const rangeOfPresses = getArrayOfPresses(getFilteredData(data), rangeOfDates);
+    
 
         const newChartData = {
             labels: rangeOfDays, //Names of days under each bar
@@ -180,16 +182,13 @@ function calculateChartData(data) {
         
 }
 
-//function to find the most common hour in an array
+//function to find the most common hour in an array of data
 function calculateMostCommonTime(data) {
-    // Get all the times in the given data
-
-    const filteredData = getFilteredData(data);
     
     const hours = []; 
 
-    // Put the hours of each of the filtered data in a list to sort and find the most common
-    filteredData.forEach((entry) => {
+    // Put the hours of each of the data in a list to sort and find the most common
+    data.forEach((entry) => {
         hours.push(findHour(entry.Time));
     });
 
@@ -223,7 +222,50 @@ function calculateMostCommonTime(data) {
 
     return mostCommonTime;
         
-} 
+}
+
+//function to find the most common location in an array of data
+function findMostCommonLocation(data) {
+    const filteredData = getFilteredData(data);
+
+    const locations = []
+
+    const frequency = {}; // to store each location and its frequency
+
+    //Store only all the locations in a new array for easier searching
+    filteredData.forEach((entry) => {
+        locations.push(entry.Location);
+    });
+
+    //Managing frequency of each location
+    locations.forEach((entry) => {
+
+        //if the entry already exists in frequency, increment its frequency
+        if(frequency[entry]){
+            frequency[entry]++;
+        }
+
+        //if not, add it
+        else{
+            frequency[entry] = 1;
+        }
+    });
+
+    //Find most common
+    let mostCommonLocation = "";
+    let mostFrequent = 0;
+
+    for(const key in frequency){
+        if(frequency[key] > mostFrequent){
+            mostFrequent = frequency[key];
+            mostCommonLocation = key;
+        }
+    }
+
+    
+    return mostCommonLocation;
+    
+}
 
 function Client() {
     let { clientId } = useParams();
@@ -232,6 +274,8 @@ function Client() {
     const [therapistData, settherapistData] = useState([]); 
     const [chartData, setChartData] = useState(); 
     const [mostCommonTime, setMostCommonTime] = useState(); 
+    const [HighestPress, setHighestPress] = useState(); 
+    const [mostCommonLocation, setMostCommonLocation] = useState();
     const [error, setError] = useState(null)
 
     //taking the data from the database and sorting them where they need to go
@@ -247,7 +291,6 @@ function Client() {
 
             //DO NOT MOVE THIS CODE IT WILL BREAK THE CHART ON REFRESH IDK WHY. IT MUST BE AS EARLY AS POSSIBLE AFTER THE AXIOS STUFF
             setChartData(calculateChartData(ouchButtonRes.data));
-            console.log(clientRes.data);
 
             setclientData(clientRes.data); 
             setouchButtonData(ouchButtonRes.data);
@@ -255,8 +298,11 @@ function Client() {
             
             // Calculate the most common time after setting ouchButtonData
             const mostCommonTime = calculateMostCommonTime(getFilteredData(ouchButtonRes.data)); 
+            const mostCommonLocation = findMostCommonLocation(ouchButtonRes.data);
+            //const highestPresses = Math.max(getArrayOfPresses(getFilteredData(ouchButtonRes.data), getLastWeekDates()));
+            //console.log(highestPresses)
 
-            
+            setMostCommonLocation(mostCommonLocation);
             setMostCommonTime(mostCommonTime); 
             
         } catch (err) {
@@ -282,6 +328,12 @@ function Client() {
                     <h3 className="client-metric__heading">This week, the button was pressed most around:</h3>
                     {formatAmPm(mostCommonTime) ? <p>{formatAmPm(mostCommonTime)}</p> : <p>Loading...</p>}
                 </div>
+            </div>
+            <div className="client-metric">
+                <h3 className="client-metric__heading">
+                    The location the button was pressed the most in was:
+                </h3>
+                {mostCommonLocation ? <p>{mostCommonLocation}</p> : <p>Loading...</p>}
             </div>
         </div>
     ); 
