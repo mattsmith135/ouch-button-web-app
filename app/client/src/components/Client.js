@@ -4,6 +4,7 @@ import BarChart from "./BarChart";
 import axios from "axios";
 
 // function to return just the date in a datetime string
+//NOTE: THIS FUNCTION SOMEHOW CHANGES IT TO THE CURRENT TIMEZONE'S DATE AND NOT JUST EXTRACTS THE RAW DATE FROM THE DATABASE ENTRY. IDK WHY IT DOES THIS BUT IT'S WHAT WE WANT ANYWAY THEREFORE I WON'T CHANGE IT FOR NOW
 function findDate(dateTimeString){
     const date = new Date(dateTimeString);
 
@@ -106,7 +107,7 @@ function formatAmPm(hour){
     return hour + ampm;
 
 }
- 
+
 //function to filter out the ouchButtonData to only return objects within the date range
 function getFilteredData(data){
 
@@ -227,7 +228,7 @@ function calculateMostCommonTime(data) {
 function Client() {
     let { clientId } = useParams();
     const [clientData, setclientData] = useState(); 
-    const [ouchButtonData, setouchButtonData] = useState([]); 
+    const [ouchButtonData, setouchButtonData] = useState([]); //was supposed to be used to put into calculateChartData function but it wouldn't work so the data for that function was instead gotten directly from the source
     const [therapistData, settherapistData] = useState([]); 
     const [chartData, setChartData] = useState(); 
     const [mostCommonTime, setMostCommonTime] = useState(); 
@@ -246,6 +247,7 @@ function Client() {
 
             //DO NOT MOVE THIS CODE IT WILL BREAK THE CHART ON REFRESH IDK WHY. IT MUST BE AS EARLY AS POSSIBLE AFTER THE AXIOS STUFF
             setChartData(calculateChartData(ouchButtonRes.data));
+            console.log(clientRes.data);
 
             setclientData(clientRes.data); 
             setouchButtonData(ouchButtonRes.data);
