@@ -7,12 +7,6 @@ function login(){
         console.log(messages.error) 
     }
 
-    app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-        successRedirect: '/Upload',
-        failureRedirect: '/login',
-        failureFlash: true
-      }))
-
     return(
         <div>
 
@@ -20,11 +14,11 @@ function login(){
 
     <form action="/login" method="POST">
         <div>
-            <label for="email">Email</label>
+            <label>Email</label>
             <input type="email" id="email" name="email" required/>
         </div>
         <div>
-            <label for="password">Password</label>
+            <label>Password</label>
             <input type="password" id="password" name="password" required/>
         </div>
         <button type="submit">Login</button>

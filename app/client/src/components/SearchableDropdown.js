@@ -18,7 +18,7 @@ function SearchableDropdown() {
 
                 const options = clientRes.map((item) => ({
                     value: item.ClientID,
-                    label: item.ClientName,
+                    label: `${item.ClientName} (${item.ClientID})`,
                 }))
 
                 setTimeout(() => {
