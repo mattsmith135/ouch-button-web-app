@@ -7,6 +7,12 @@ router.get('/', async (req, res) => {
     res.json(response);
 });
 
+router.get('/:clientId', async (req, res) => {
+    const clientId = req.params.clientId;
+    const client = await clientdata.findByPk(clientId)
+    res.json(client);
+});
+
 router.post('/', async (req, res) => {
     const newClientData = req.body;
     await clientdata.create(newClientData);
