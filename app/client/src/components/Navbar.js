@@ -1,17 +1,15 @@
-import { Component } from "react"; 
-import { Link } from "react-router-dom";
+import { Component, useState, useEffect, React } from "react"; 
+import { Link, useParams } from "react-router-dom";
 import logo from "../assets/logo.png"; 
 import accountLogo from "../assets/therapist-profile-picture.jpg"; 
 import Button from './Button';
 
-class Navbar extends Component {
-    constructor(props) {
-        super(props); 
-    }
-    
-    render() {
-        return (
-            <nav className="nav">
+function Navbar() {
+
+    //*Use UseParams to get the Therapist Id to get the therapist name. Note: Get Ruben's stuff working
+  return (
+    <div>
+      <nav className="nav">
                 <div className="nav-container nav-container-left">
                     <Link to="/">
                         <img src={logo} alt="Logo" className="logo" />
@@ -25,8 +23,7 @@ class Navbar extends Component {
                     </div>
                 </div>
             </nav>
-        )
-    }
+    </div>
+  )
 }
-
-export default Navbar; 
+export default Navbar
