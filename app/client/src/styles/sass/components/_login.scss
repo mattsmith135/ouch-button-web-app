@@ -1,8 +1,4 @@
-// -----------------------------------------------------------------------------
-// This file contains all styles corresponding to the Upload component
-// -----------------------------------------------------------------------------
-
-.upload {
+.login {
     @include container-flex; 
 
     margin: $main-content-margin-vertical $main-content-margin-horizontal;
@@ -14,23 +10,39 @@
     }
 }
 
-.upload-wrapper {
+.login-wrapper {
     @include container-flex; 
 
     flex-direction: column; 
     width: 100%;
 }
 
-.upload-header {
+.login-header {
+    text-align: center;
+
+    font-family: "Segoe UI";
+
+    color:#E72971
+}
+
+.login-password {
     text-align: center;
 
     &__heading {
         @include heading;
     }
 
-    &__text {
+    font-family: "Segoe UI";
+}
 
+.login-email {
+    text-align: center;
+
+    &__heading {
+        @include heading;
     }
+
+    font-family: "Segoe UI";
 }
 
 body {

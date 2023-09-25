@@ -5,3 +5,29 @@
 .btn {
     @include btn(); 
 }
+
+//buttons on login page
+.RegisterLink {
+    width: 100%;
+    background-color: #39A9E0;
+    font-family: "Segoe UI";
+}
+
+.LoginButton {
+    width: 100%;
+    background-color: #F08106;
+    font-family: "Segoe UI";
+}
+
+//buttons on register page
+.LoginLink {
+    width: 100%;
+    background-color: #39A9E0;
+    font-family: "Segoe UI";
+}
+
+.RegisterButton {
+    width: 100%;
+    background-color: #F08106;
+    font-family: "Segoe UI";
+}
