@@ -1,7 +1,8 @@
 import React, { useState } from 'react'; 
 import { useDropzone } from 'react-dropzone';
-import {ReactComponent as UploadIcon} from '../assets/upload-icon.svg'; 
-import axios from "axios"; 
+import { ReactComponent as UploadIcon } from '../assets/upload-icon.svg'; 
+import SearchableDropdown from './SearchableDropdown';
+import axios from 'axios'; 
 
 function FileDropzone() {
     const [file, setFile] = useState(null); 
@@ -44,7 +45,7 @@ function FileDropzone() {
     const handleFileUpload = async () => {
         if (file) {
             const formData = new FormData();
-            formData.append("name", file.path); 
+            formData.append("filename", file.path); 
             formData.append("file", file); 
             const url = "http://localhost:5000/api/upload";
 
@@ -83,6 +84,10 @@ function FileDropzone() {
                 <h4 className="uploaded-files__heading">Rejected files</h4>
                 <ul className="uploaded-files__list">{fileRejectionItems}</ul>
             </aside>
+            <div>
+                <label>Which client is this ouch button file for?</label>
+                <SearchableDropdown />
+            </div>
             <button onClick={handleFileUpload}>Upload File</button> 
         </div>
     )

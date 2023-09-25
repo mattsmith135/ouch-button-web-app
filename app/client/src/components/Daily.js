@@ -3,52 +3,48 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function findTime(dateTimeString){
+function getTime(dateTimeString) {
   const date = new Date(dateTimeString);
-    const hour = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
+  const hour = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
 
-    return formatAmPm(hour, minutes);
+  return formatAMPM(hour, minutes);
 }
 
-//function to format an hour into am or pm
-function formatAmPm(hour, minutes){
+function formatAMPM(hour, minutes) {
   let ampm = "AM";
 
-  if(hour > 12){
-      hour -= 12;
-      ampm = "PM";
+  if (hour > 12) {
+    hour -= 12;
+    ampm = "PM";
   }
 
   return `${hour}:${minutes} ${ampm}`;
-
 }
 
 function Daily() {
+  let { clientId } = useParams();
+  let { dayId } = useParams();
+  const [clientData, setclientData] = useState(); 
+  const [ouchButtonData, setouchButtonData] = useState([]);
+  const [error, setError] = useState(null)
 
-    let {clientId} = useParams();
-    let { dayId } = useParams();
-    const [clientData, setclientData] = useState(); 
-    const [ouchButtonData, setouchButtonData] = useState([]);
-    const [error, setError] = useState(null)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [clientDataRes, ouchButtonRes ] = await Promise.all([
+          axios.get(`http://localhost:5000/clientdata/${clientId}`),
+          axios.get(`http://localhost:5000/ouchbuttondata/${clientId}/${dayId}`),
+        ]);
+        setouchButtonData(ouchButtonRes.data);
+        setclientData(clientDataRes.data);
+      } catch (err) {
+        setError("Error fetching data.");
+      }
+    };
 
-    //fetching the data and putting it where it needs to go
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const [clientDataRes, ouchButtonRes ] = await Promise.all([
-              axios.get(`http://localhost:5000/clientdata/${clientId}`),
-              axios.get(`http://localhost:5000/ouchbuttondata/${clientId}/${dayId}`),
-            ]);
-            setouchButtonData(ouchButtonRes.data);
-            setclientData(clientDataRes.data);
-          } catch (err) {
-            setError("Error fetching data.");
-          }
-        };
-    
-        fetchData();
-    }, []);
+    fetchData();
+  }, []);
 
     
   return (
@@ -62,7 +58,7 @@ function Daily() {
       <div>
         {ouchButtonData.map((entry) => (
             <div key={entry.OuchButtonDataID}>
-              {ouchButtonData ? <p>{entry.Location} at {findTime(entry.Time)}</p> : <p>Loading</p>}
+              {ouchButtonData ? <p>{entry.Location} at {getTime(entry.Time)}</p> : <p>Loading</p>}
             </div>
           ))}
       </div>

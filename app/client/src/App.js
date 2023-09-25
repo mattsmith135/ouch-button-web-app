@@ -5,21 +5,21 @@ import Navbar from "./components/Navbar";
 import Upload from "./components/Upload";
 import Search from "./components/Search"; 
 import Client from './components/Client';
-import Login from './components/login';
-import Daily from "./components/Daily"
-import Register from './components/register';
+import Daily from "./components/Daily";
+import Login from "./components/Login"; 
+import Register from "./components/Register"; 
 
 function App() {
 
   return (
     <BrowserRouter>
-    {/*<Navbar />*/}
+    <Navbar />
     <main>
       <Routes>
-        <Route path="/upload" element={<Upload />} />
-        <Route path="/search" element={<Search />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/upload" element={<Upload />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/client/:clientId" element={<Client />}/> 
         <Route path="/client/:clientId/:dayId" element={<Daily />}/> 
       </Routes>

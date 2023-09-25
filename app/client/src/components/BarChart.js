@@ -1,7 +1,7 @@
 import React from "react"; 
-import {useRef} from 'react';
+import { useRef } from 'react';
 import { useNavigate } from "react-router-dom"; 
-import {Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js/auto";
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js/auto";
 import { Bar, getElementAtEvent, getElementsAtEvent } from "react-chartjs-2";  
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
@@ -22,7 +22,7 @@ function BarChart({ chartData, clientId }) {
 
     const onClick = (event) => {
 
-        if(getElementsAtEvent(chartRef.current, event).length > 0){
+        if (getElementsAtEvent(chartRef.current, event).length > 0) {
             const datasetIndexNum = getElementsAtEvent(chartRef.current, event)[0].datasetIndex;
             const dataPoint = getElementsAtEvent(chartRef.current, event)[0].index;
 
@@ -33,9 +33,7 @@ function BarChart({ chartData, clientId }) {
     }
 
     return (
-
         <Bar className="barchart" data={chartData} options={chartOptions} onClick={onClick} ref = {chartRef}/>
-        
     )
 }
 
