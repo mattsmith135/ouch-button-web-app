@@ -24,7 +24,3 @@ app/server/.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-#login stuff
-.env
-node-modules

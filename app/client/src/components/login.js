@@ -1,6 +1,6 @@
 import React from 'react'
 
-function login(){
+function Login() {
 
     const messages = "Error"
     if (messages.error) {
@@ -9,26 +9,23 @@ function login(){
 
     return(
         <div>
+            <h1>Login</h1>
 
-        <h1>Login</h1>
+            <form action="/login" method="POST">
+                <div>
+                    <label>Email</label>
+                    <input type="email" id="email" name="email" required/>
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" id="password" name="password" required/>
+                </div>
+                <button type="submit">Login</button>
+            </form>
 
-    <form action="/login" method="POST">
-        <div>
-            <label>Email</label>
-            <input type="email" id="email" name="email" required/>
+            <a href="/register">Register</a>   
         </div>
-        <div>
-            <label>Password</label>
-            <input type="password" id="password" name="password" required/>
-        </div>
-        <button type="submit">Login</button>
-    </form>
-
-
-<a href="/register">Register</a>
-
-</div>
 )
 }
 
-export default login
+export default Login
