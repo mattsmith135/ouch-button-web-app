@@ -7,11 +7,22 @@
 #include <SoftwareSerial.h>
 #include <ezButton.h>
 
+//Timezone Adjustments
+const int timezone_hours = 10;
+const int timezone_minutes = 0;
+
+//Time values
+int hour;
+int minute;
+int second;
+
+//Button ID
+const int buttonID = 001;
+
 //GPS RXD -> Uno TX. GPS TXD -> Uno RX
 static const int RXPin = 7, TXPin = 3;
 
 static const uint32_t GPSBaud = 9600;
-
 // The TinyGPSPlus object
 TinyGPSPlus gps;
 
@@ -26,34 +37,26 @@ int gpsHours;
 int gpsCentisecond;
 File file;
 
-
-
- 
  void setup() {
   Serial.begin(9600);
-
-  limitSwitch.setDebounceTime(10); 
+  limitSwitch.setDebounceTime(75); 
   ss.begin(GPSBaud);
-  
+
   while (!Serial){
       ;
     }
   Serial.print("Initialising SD Card...");
-
   if(!SD.begin(4)){
     Serial.println("initialising failed");
     while(1);
   }
-
   Serial.println("init done");
-
   if(SD.exists("ouch.txt")){
     Serial.println("ouch.txt exists.");
   }else{
     Serial.println("ouch.txt doesn't exist."); 
   }
 }
-
 void loop() {
   // put your main code here, to run repeatedly:
   limitSwitch.loop();
@@ -72,18 +75,17 @@ void loop() {
   }
   
 }
-
 void buttonCheck(){
   if(limitSwitch.isReleased())
   {
     
   }
 }
-
 void writeToSD(){
   file = SD.open("ouch.txt", FILE_WRITE);
-  file.print ("Button Pressed! ");
-  file.print("Location: "); 
+  file.print("Button ID: ");
+  file.print(buttonID)
+  file.print(" Location: "); 
   if (gps.location.isValid())
   {
     file.print(gps.location.lat(), 6);
@@ -94,7 +96,6 @@ void writeToSD(){
   {
     file.print("INVALID");
   }
-
   file.print("  Date/Time: ");
   if (gps.date.isValid())
   {
@@ -108,12 +109,13 @@ void writeToSD(){
   {
     file.print("INVALID");
   }
-
   file.print(" ");
   if (gps.time.isValid())
   {
-    if (gps.time.hour() < 10) file.print("0");
-    file.print(gps.time.hour());
+    timeZoneAdjustment();
+
+    if (hour < 10) file.print("0");
+    file.print(hour);
     file.print(":");
     if (gps.time.minute() < 10) file.print("0");
     file.print(gps.time.minute());
@@ -128,7 +130,6 @@ void writeToSD(){
   {
     file.print("INVALID");
   }
-
   file.println();
  
   Serial.println("Writing to SD card successful");
@@ -136,8 +137,19 @@ void writeToSD(){
   displayInfo();
 }
 
-void displayInfo()
+void timeZoneAdjustment()
 {
+  hour = gps.time.hour();
+  minute = gps.time.minute();
+  second = gps.time.second();
+
+  hour = hour + timezone_hours;
+  if(hour >= 24){
+    hour = hour - 24;
+  }
+}
+
+void displayInfo(){
   Serial.print(F("Location: ")); 
   if (gps.location.isValid())
   {
@@ -149,7 +161,6 @@ void displayInfo()
   {
     Serial.print(F("INVALID"));
   }
-
   Serial.print(F("  Date/Time: "));
   if (gps.date.isValid())
   {
@@ -163,12 +174,12 @@ void displayInfo()
   {
     Serial.print(F("INVALID"));
   }
-
   Serial.print(F(" "));
   if (gps.time.isValid())
   {
-    if (gps.time.hour() < 10) Serial.print(F("0"));
-    Serial.print(gps.time.hour());
+    timeZoneAdjustment();
+    if (hour < 10) Serial.print(F("0"));
+    Serial.print(hour);
     Serial.print(F(":"));
     if (gps.time.minute() < 10) Serial.print(F("0"));
     Serial.print(gps.time.minute());
@@ -183,6 +194,5 @@ void displayInfo()
   {
     Serial.print(F("INVALID"));
   }
-
   Serial.println();
 }
