@@ -19,11 +19,11 @@ function login(){
                 <form action="/login" method="POST">
         
                 <div className="login-email">
-                    <label for="email">Email </label>
+                    <label for="email">Email: </label>
                     <input type="email" id="email" name="email" required/>
                 </div>
                 <div className="login-password">
-                    <label for="password">Password </label>
+                    <label for="password">Password: </label>
                     <input type="password" id="password" name="password" required/>
                 </div>
                 <button class="LoginButton" type="submit">Login</button>

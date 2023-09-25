@@ -13,17 +13,17 @@ function register(){
             <form action="/register" method="POST">
 
             <div className="register-name">
-                <label for="name">Name </label>
+                <label for="name">Name: </label>
                 <input type="text" id="name" name="name" required/>
             </div>
             <div className="register-email">
-                <label for="email">Email </label>
+                <label for="email">Email: </label>
                 <input type="email" id="email" name="email" required/>
             </div>
             <div className="register-password">
-                <label for="password">Password </label>
+                <label for="password">Password: </label>
                 <input type="password" id="password" name="password" required/>
-                <br></br>
+                
             </div>
                 <button class="RegisterButton" type="submit">Register</button>
             </form>
