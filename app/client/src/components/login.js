@@ -8,22 +8,27 @@ function Login() {
     }
 
     return(
-        <div>
-            <h1>Login</h1>
-
-            <form action="/login" method="POST">
-                <div>
-                    <label>Email</label>
-                    <input type="email" id="email" name="email" required/>
+        <div className="login">
+            <div className="login-wrapper">
+                <div className="login-header">
+                    <h1 className="login-header__heading">Login</h1>
                 </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" id="password" name="password" required/>
+                <div className="login-content">
+                    <form id="login-form" action="/login" method="POST">
+                        <div>
+                            <label>Email</label>
+                            <input type="email" id="email" name="email" required/>
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <input type="password" id="password" name="password" required/>
+                        </div>
+                        <button type="submit">Login</button>
+                    </form>
+                    <a href="/register">Register</a>  
                 </div>
-                <button type="submit">Login</button>
-            </form>
-
-            <a href="/register">Register</a>   
+                
+            </div>
         </div>
 )
 }

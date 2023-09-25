@@ -1,0 +1,43 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles corresponding to the Register component
+// -----------------------------------------------------------------------------
+
+.register {
+    @include container-flex; 
+
+    margin: $main-content-margin-vertical $main-content-margin-horizontal;
+
+    &-header, &-content {
+        width: 100%;
+    }
+}
+
+.register-wrapper {
+    @include container-flex;
+    @include content-container;
+
+    flex-direction: column; 
+    width: 100%;
+    max-width: 600px;
+}
+
+.register-header {
+    text-align: center;
+
+    &__heading {
+        @include heading;
+    }
+}
+
+#register-form {
+    /* PLAN: create mixin for form styling */
+    width: 100%; 
+
+    input {
+        width: 100%; 
+    }
+
+    button {
+        @include btn; 
+    }
+}
