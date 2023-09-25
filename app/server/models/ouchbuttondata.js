@@ -10,8 +10,11 @@ module.exports = (sequelize, DataTypes) => {
         OuchButtonID: {
             type: DataTypes.INTEGER
         },
-        Location: {
-            type: DataTypes.STRING
+        Latitude: {
+            type: DataTypes.DECIMAL(8, 6)
+        }, 
+        Longitude: {
+            type: DataTypes.DECIMAL(9, 6) 
         },
         Time: {
             type: DataTypes.DATE

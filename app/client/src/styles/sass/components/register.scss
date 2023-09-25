@@ -1,8 +1,8 @@
 // -----------------------------------------------------------------------------
-// This file contains all styles corresponding to the Login component
+// This file contains all styles corresponding to the Register component
 // -----------------------------------------------------------------------------
 
-.login {
+.register {
     @include container-flex; 
 
     margin: $main-content-margin-vertical $main-content-margin-horizontal;
@@ -12,7 +12,7 @@
     }
 }
 
-.login-wrapper {
+.register-wrapper {
     @include container-flex;
     @include content-container;
 
@@ -21,7 +21,7 @@
     max-width: 600px;
 }
 
-.login-header {
+.register-header {
     text-align: center;
 
     &__heading {
@@ -29,7 +29,7 @@
     }
 }
 
-#login-form {
+#register-form {
     /* PLAN: create mixin for form styling */
     width: 100%; 
 

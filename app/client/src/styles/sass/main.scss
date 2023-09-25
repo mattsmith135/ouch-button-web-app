@@ -15,13 +15,13 @@
 
 // 5. Components
 @import 'components/button';
-@import 'components/upload';
 @import 'components/pagination';
-@import 'components/client'; 
 @import 'components/filedropzone'; 
 @import 'components/barchart'; 
-@import 'components/search';
-@import 'components/login';
-@import 'components/register';
 
 // 6. Page-specific styles
+@import 'components/upload';
+@import 'components/client'; 
+@import 'components/search';
+@import 'components/login'; 
+@import 'components/register'; 

@@ -3,7 +3,7 @@ import { Component } from "react";
 import { Link } from "react-router-dom"; 
 import Button from './Button';
 
-function login(){
+function Login() {
 
     const messages = "Error"
     if (messages.error) {
@@ -14,27 +14,25 @@ function login(){
         <div className="login">
             <div className="login-wrapper">
                 <div className="login-header">
-                    <h1 className="login-header_heading">Login to Ouch Button website</h1>
+                    <h1 className="login-header__heading">Login to Ouch Button Portal</h1>
                 </div>
-                <form action="/login" method="POST">
-        
-                <div className="login-email">
-                    <label for="email">Email: </label>
-                    <input type="email" id="email" name="email" required/>
+                <div className="login-content">
+                    <form id="login-form" action="/login" method="POST">
+                        <div>
+                            <label>Email</label>
+                            <input type="email" id="email" name="email" required/>
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <input type="password" id="password" name="password" required/>
+                        </div>
+                        <button type="submit">Login</button>
+                    </form>
+                    <Link to="/register">
+                      <button>Register Page</button>
+                    </Link>
                 </div>
-                <div className="login-password">
-                    <label for="password">Password: </label>
-                    <input type="password" id="password" name="password" required/>
-                </div>
-                <button class="LoginButton" type="submit">Login</button>
-                </form>
-                
-                <Link to="/register"><button class="RegisterLink">Register Page</button></Link>
-                
             </div>
         </div>
-        
-    )
-}
 
-export default login
+export default Login

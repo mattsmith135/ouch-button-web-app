@@ -33,30 +33,13 @@ VALUES
 ('William Allen', 2, 3);
 
 -- Insert dummy data for the OuchButtonData table
-INSERT INTO OuchButtonData (OuchButtonID, Location, Time, ClientID)
+INSERT INTO OuchButtonData (OuchButtonID, Latitude, Longitude, Time, ClientID)
 VALUES
-(2, 'Living room', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 6),
-(1, 'Kitchen', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 6),
-(3, 'Bedroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 7),
-(1, 'Bathroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 7),
-(2, 'Living room', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 8),
-(3, 'Kitchen', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 8),
-(1, 'Bedroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 9),
-(2, 'Bathroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 9),
-(1, 'Living room', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 10),
-(3, 'Kitchen', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 10),
-(2, 'Bedroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 11),
-(1, 'Bathroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 11),
-(3, 'Living room', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 12),
-(1, 'Kitchen', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 12),
-(2, 'Bedroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 13),
-(1, 'Bathroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 13),
-(3, 'Living room', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 14),
-(1, 'Kitchen', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 14),
-(2, 'Bedroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 15),
-(1, 'Bathroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 15),
-(1, 'Living room', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 6),
-(2, 'Kitchen', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 6),
-(3, 'Bedroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 6),
-(1, 'Bathroom', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 9),
-(2, 'Living room', DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 7) DAY), 10);
+(1, 34.123456, -118.789012, DATE_ADD(NOW(), INTERVAL -1 DAY), 1),
+(2, 34.234567, -118.890123, DATE_ADD(NOW(), INTERVAL -2 DAY), 1),
+(1, 34.345678, -118.901234, DATE_ADD(NOW(), INTERVAL -3 DAY), 2),
+(2, 34.456789, -118.912345, DATE_ADD(NOW(), INTERVAL -4 DAY), 2),
+(1, 34.567890, -118.923456, DATE_ADD(NOW(), INTERVAL -5 DAY), 3),
+(2, 34.678901, -118.934567, DATE_ADD(NOW(), INTERVAL -6 DAY), 3),
+(3, 34.789012, -118.945678, DATE_ADD(NOW(), INTERVAL -7 DAY), 4),
+(3, 34.890123, -118.956789, DATE_ADD(NOW(), INTERVAL -8 DAY), 4);
