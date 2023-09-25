@@ -1,4 +1,7 @@
 import React from 'react'
+import { Component } from "react";
+import { Link } from "react-router-dom"; 
+import Button from './Button';
 
 function Login() {
 
@@ -11,7 +14,7 @@ function Login() {
         <div className="login">
             <div className="login-wrapper">
                 <div className="login-header">
-                    <h1 className="login-header__heading">Login</h1>
+                    <h1 className="login-header__heading">Login to Ouch Button Portal</h1>
                 </div>
                 <div className="login-content">
                     <form id="login-form" action="/login" method="POST">
@@ -25,12 +28,11 @@ function Login() {
                         </div>
                         <button type="submit">Login</button>
                     </form>
-                    <a href="/register">Register</a>  
+                    <Link to="/register">
+                      <button>Register Page</button>
+                    </Link>
                 </div>
-                
             </div>
         </div>
-)
-}
 
 export default Login

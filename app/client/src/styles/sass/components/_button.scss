@@ -5,3 +5,49 @@
 .btn {
     @include btn(); 
 }
+
+//buttons on login page
+.RegisterLink {
+    width: 100%;
+    background-color: #39A9E0;
+    font-family: "Segoe UI";
+    transition-duration: 0.4s;
+}
+
+  .RegisterLink:hover {
+    background-color: #E72971;
+  }
+
+.LoginButton {
+    width: 100%;
+    background-color: #F08106;
+    font-family: "Segoe UI";
+    transition-duration: 0.4s;
+}
+
+.LoginButton:hover {
+    background-color: #E72971;
+  }
+
+//buttons on register page
+.LoginLink {
+    width: 100%;
+    background-color: #39A9E0;
+    font-family: "Segoe UI";
+    transition-duration: 0.4s;
+}
+
+.LoginLink:hover {
+    background-color: #E72971;
+  }
+
+.RegisterButton {
+    width: 100%;
+    background-color: #F08106;
+    font-family: "Segoe UI";
+    transition-duration: 0.4s;
+}
+
+.RegisterButton:hover {
+    background-color: #E72971;
+  }
