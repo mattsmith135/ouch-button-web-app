@@ -23,13 +23,18 @@ const int buttonID = 001;
 static const int RXPin = 7, TXPin = 3;
 
 static const uint32_t GPSBaud = 9600;
+
 // The TinyGPSPlus object
 TinyGPSPlus gps;
 
 // The serial connection to the GPS device
 SoftwareSerial ss(RXPin, TXPin);
 
+//Chip select
+const int chipSelect = 4;
+
 ezButton limitSwitch(8);
+
 int buttonValue;
 int gpsSeconds;
 int gpsMinutes;
@@ -46,7 +51,7 @@ File file;
       ;
     }
   Serial.print("Initialising SD Card...");
-  if(!SD.begin(4)){
+  if(!SD.begin(chipSelect)){
     Serial.println("initialising failed");
     while(1);
   }
@@ -84,7 +89,7 @@ void buttonCheck(){
 void writeToSD(){
   file = SD.open("ouch.txt", FILE_WRITE);
   file.print("Button ID: ");
-  file.print(buttonID)
+  file.print(buttonID);
   file.print(" Location: "); 
   if (gps.location.isValid())
   {
