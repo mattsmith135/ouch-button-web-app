@@ -17,21 +17,20 @@ function Login() {
                 <div className="login-header">
                     <h1 className="login-header__heading">Login to Ouch Button Portal</h1>
                 </div>
-                <form action="/login" method="POST">
-        
-                <div className="login-email">
-                    <label for="email">Email: </label>
-                    <input type="email" id="email" name="email" required/>
-                </div>
-                <div className="login-password">
-                    <label for="password">Password: </label>
-                    <input type="password" id="password" name="password" required/>
-                </div>
-                <button class="LoginButton" type="submit">Login</button>
+                <div className="login-content">
+                <form id="login-form" action="/login" method="POST">
+                    <div>
+                        <label>Email</label>
+                        <input type="email" id="email" name="email" required/>
+                    </div>
+                    <div>
+                        <label>Password</label>
+                        <input type="password" id="password" name="password" required/>
+                    </div>
+                <br></br>
+                <Button type="submit" text="Login">Login</Button> <Link to="/register"><Button text="Register Page"></Button></Link>
                 </form>
-                
-                <Link to="/register"><button class="RegisterLink">Register Page</button></Link>
-                
+                </div>
             </div>
         </div>
     )}

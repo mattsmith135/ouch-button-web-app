@@ -1,9 +1,11 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles corresponding to the Register component
+// -----------------------------------------------------------------------------
+
 .register {
     @include container-flex; 
 
     margin: $main-content-margin-vertical $main-content-margin-horizontal;
-
-    flex-direction: column;
 
     &-header, &-content {
         width: 100%;
@@ -11,53 +13,33 @@
 }
 
 .register-wrapper {
-    @include container-flex; 
+    @include container-flex;
+    @include content-container;
 
     flex-direction: column; 
     width: 100%;
+    max-width: 600px;
 }
 
 .register-header {
     text-align: center;
 
-    font-family: "Segoe UI";
-
-    color:#E72971
-}
-
-.register-name {
-    text-align: center;
-
     &__heading {
         @include heading;
     }
-
-    font-family: "Segoe UI";
 }
 
-.register-password {
-    text-align: center;
+#register-form {
+    /* PLAN: create mixin for form styling */
+    width: 100%; 
 
-    font-family: "Segoe UI";
-}
-
-.register-email {
-    text-align: center;
-
-    &__heading {
-        @include heading;
+    input {
+        width: 100%; 
     }
 
     font-family: "Segoe UI";
-}
-
-body {
-    background-color: #D6D2C4
-  }
-
-  .logo {
-    display: block;
-    object-fit: contain; 
-    max-width: 150px;
-    height: auto; 
+    
+    button {
+        @include btn; 
+    }
 }

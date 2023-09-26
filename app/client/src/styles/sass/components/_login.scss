@@ -38,6 +38,10 @@
     }
 
     font-family: "Segoe UI";
+
+    button {
+        @include btn;
+    }
 }
 
 body {

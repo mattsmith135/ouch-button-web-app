@@ -24,11 +24,11 @@ function Register() {
               <label>Password</label>
               <input type="password" id="password" name="password" required />
             </div>
-            <button type="submit">Register</button>
+            <br></br>
+            <button type="submit">Register</button> <Link to="/login"><Button text="Login Page"></Button></Link>
           </form>
-          <Link to="/login">
-            <button>Login Page</button>
-          </Link>
+          
+          
         </div>
       </div>
     </div>

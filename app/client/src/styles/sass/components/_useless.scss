@@ -1,0 +1,63 @@
+.register {
+    @include container-flex; 
+
+    margin: $main-content-margin-vertical $main-content-margin-horizontal;
+
+    flex-direction: column;
+
+    &-header, &-content {
+        width: 100%;
+    }
+}
+
+.register-wrapper {
+    @include container-flex; 
+
+    flex-direction: column; 
+    width: 100%;
+}
+
+.register-header {
+    text-align: center;
+
+    font-family: "Segoe UI";
+
+    color:#E72971
+}
+
+.register-name {
+    text-align: center;
+
+    &__heading {
+        @include heading;
+    }
+
+    font-family: "Segoe UI";
+}
+
+.register-password {
+    text-align: center;
+
+    font-family: "Segoe UI";
+}
+
+.register-email {
+    text-align: center;
+
+    &__heading {
+        @include heading;
+    }
+
+    font-family: "Segoe UI";
+}
+
+body {
+    background-color: #D6D2C4
+  }
+
+  .logo {
+    display: block;
+    object-fit: contain; 
+    max-width: 150px;
+    height: auto; 
+}
