@@ -1,7 +1,4 @@
 import React from 'react'
-import { Component } from "react";
-import { Link } from "react-router-dom"; 
-import Button from './Button';
 
 function Register() {
 
@@ -27,9 +24,6 @@ function Register() {
                     </div>
                     <button type="submit">Register</button>
                 </form>
-                <Link to="/login">
-                  <button>Login Page</button>
-                </Link>
             </div>
         </div>
     </div>
