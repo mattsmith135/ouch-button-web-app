@@ -1,7 +1,4 @@
 import React from 'react'
-import { Component } from "react";
-import { Link } from "react-router-dom"; 
-import Button from './Button';
 
 function Login() {
 
@@ -10,7 +7,7 @@ function Login() {
         console.log(messages.error) 
     }
 
-    return(
+    return (
         <div className="login">
             <div className="login-wrapper">
                 <div className="login-header">
@@ -28,11 +25,10 @@ function Login() {
                         </div>
                         <button type="submit">Login</button>
                     </form>
-                    <Link to="/register">
-                      <button>Register Page</button>
-                    </Link>
                 </div>
             </div>
         </div>
+    )
+}
 
 export default Login
