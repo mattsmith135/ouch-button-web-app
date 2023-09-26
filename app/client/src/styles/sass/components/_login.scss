@@ -37,7 +37,9 @@
         width: 100%; 
     }
 
-    button {
-        @include btn; 
-    }
+    font-family: "Segoe UI";
 }
+
+body {
+    background-color: #D6D2C4
+  }

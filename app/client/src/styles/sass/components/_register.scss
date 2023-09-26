@@ -54,3 +54,10 @@
 body {
     background-color: #D6D2C4
   }
+
+  .logo {
+    display: block;
+    object-fit: contain; 
+    max-width: 150px;
+    height: auto; 
+}
