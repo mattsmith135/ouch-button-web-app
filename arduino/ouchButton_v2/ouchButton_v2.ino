@@ -17,7 +17,7 @@ int minute;
 int second;
 
 //Button ID
-const int buttonID = 001;
+const int buttonID = 1;
 
 //GPS RXD -> Uno TX. GPS TXD -> Uno RX
 static const int RXPin = 7, TXPin = 3;
