@@ -6,6 +6,7 @@ import axios from 'axios';
 
 function FileDropzone() {
     const [file, setFile] = useState(null); 
+    const [selectedClientID, setSelectedClientID] = useState(null); 
 
     const {
         acceptedFiles,
@@ -47,7 +48,9 @@ function FileDropzone() {
             const formData = new FormData();
             formData.append("filename", file.path); 
             formData.append("file", file); 
-            const url = "http://localhost:5000/api/upload";
+            formData.append("clientId", selectedClientID); // clientId is included as it enables the association of uploaded data with a client  
+            
+            const url = "http://localhost:5000/ouchbuttondata/upload";
 
             try {
                 await axios.post(url, formData, {
@@ -86,7 +89,7 @@ function FileDropzone() {
             </aside>
             <div>
                 <label>Which client is this ouch button file for?</label>
-                <SearchableDropdown />
+                <SearchableDropdown onSelect={(selectedValue) => setSelectedClientID(selectedValue)} />
             </div>
             <button onClick={handleFileUpload}>Upload File</button> 
         </div>

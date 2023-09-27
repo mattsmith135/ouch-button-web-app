@@ -261,7 +261,6 @@ function Client() {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-
         const fetchData = async () => {
         try {
             const [clientRes, ouchButtonRes, therapistRes] = await Promise.all([

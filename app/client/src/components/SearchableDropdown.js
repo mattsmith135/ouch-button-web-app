@@ -1,8 +1,10 @@
-import React from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import AsyncSelect from 'react-select/async';
 import axios from 'axios'; 
 
-function SearchableDropdown() {
+function SearchableDropdown({ onSelect }) {
+    const [selectedValue, setSelectedValue] = useState(null); 
+
     const filterOptions = (inputValue, options) => {
         return options.filter((i) =>
             i.label.toLowerCase().includes(inputValue.toLowerCase())
@@ -31,8 +33,19 @@ function SearchableDropdown() {
             });
     }
 
+    const onChangeSelectedOption = e => {
+        setSelectedValue(e.value); 
+    }
+
+    useEffect(() => {
+        if (selectedValue) {
+            onSelect(selectedValue); // Pass selected value to parent component
+        }
+    }, [selectedValue, onSelect])
+
     return (
         <AsyncSelect
+            onChange={onChangeSelectedOption}
             cacheOptions
             loadOptions={loadOptions}
             defaultOptions
