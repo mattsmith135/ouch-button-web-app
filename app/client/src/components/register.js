@@ -8,19 +8,20 @@ function Register() {
     <div className="register">
       <div className="register-wrapper">
         <div className="register-header">
+          <img src={logo} alt="Logo" className="logo" />
           <h1 className="register-header__heading">Register</h1>
         </div>
         <div className="register-content">
           <form id="register-form" action="/register" method="POST">
-            <div>
+            <div className="NameRegister">
               <label>Name</label>
               <input type="text" id="name" name="name" required />
             </div>
-            <div>
+            <div className="EmailRegister">
               <label>Email</label>
               <input type="email" id="email" name="email" required />
             </div>
-            <div>
+            <div className="PasswordRegister">
               <label>Password</label>
               <input type="password" id="password" name="password" required />
             </div>
