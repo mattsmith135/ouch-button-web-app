@@ -2,21 +2,42 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser'); 
 const cors = require('cors');
+const expressSession = require('express-session'); 
+const passport = require('passport'); 
 const db = require('./models');
+const port = process.env.EXPRESS_PORT || 5000; 
 const ouchbuttondataRouter = require('./routes/ouchbuttondata');
 const clientdataRouter = require('./routes/clientdata');
 const therapistdataRouter = require('./routes/therapistdata');
-const port = process.env.EXPRESS_PORT || 5000; 
+const authRouter = require('./routes/auth'); 
+const cookieParser = require('cookie-parser');
 
 require('dotenv').config(); 
 
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.json()); 
+app.use(express.json()); 
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+})); 
+app.use(expressSession({
+    secret: process.env.SESSION_SECRET,
+    resave: true, 
+    saveUninitialized: true,
+    cookie: { secure: true }
+}));
+app.use(cookieParser(process.env.SESSION_SECRET)); 
+app.use(passport.initialize()); 
+app.use(passport.session());
+require('./passport-config')(passport); 
+
 // Routers
-app.use(cors()); 
 app.use('/ouchbuttondata', ouchbuttondataRouter);
 app.use('/clientdata', clientdataRouter);
 app.use('/therapistdata', therapistdataRouter);
-app.use(express.json()); 
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use('/auth', authRouter); 
 
 // Sequelize
 db.sequelize.sync().then(() => {
@@ -24,91 +45,3 @@ db.sequelize.sync().then(() => {
         console.log(`Server is running on port: ${port}`);
     }); 
 });
-
-// Login server code
-
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-const flash = require('express-flash');
-const session = require('express-session');
-const methodOverride = require('method-override');
-
-const initializePassport = require('./passport-config')
-initializePassport(
-  passport,
-  email => users.find(user => user.email === email),
-  id => users.find(user => user.id === id)
-)
-
-// Temporary storage of users
-const users = []
-
-app.set('view-engine', 'ejs')
-app.use(express.urlencoded({ extended: false }))
-app.use(flash())
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}))
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(methodOverride('_method'))
-
-app.get('/', checkAuthenticated, (req, res) => {
-  res.render('index.ejs', { name: req.user.name })
-})
-
-app.get('/login', checkNotAuthenticated, (req, res) => {
-  res.render('login.ejs')
-})
-
-// If login was successful, get index
-// If not, go back to login
-app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-}))
-
-app.get('/register', checkNotAuthenticated, (req, res) => {
-  res.render('register.ejs')
-})
-
-// Pushing the answers from register into storage
-app.post('/register', checkNotAuthenticated, async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    users.push({
-      id: Date.now().toString(),
-      name: req.body.name,
-      email: req.body.email,
-      password: hashedPassword
-    })
-    res.redirect('/login')
-  } catch {
-    res.redirect('/register')
-  }
-})
-
-// When logout is pressed, delete the session and go back to login
-app.delete('/logout', (req, res) => {
-  req.logout(function(err) {
-      if (err) { return next(err); }
-      res.redirect('/login');
-    });
-})
-
-function checkAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next()
-  }
-  res.redirect('/login')
-}
-
-function checkNotAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return res.redirect('/')
-  }
-  next()
-}
