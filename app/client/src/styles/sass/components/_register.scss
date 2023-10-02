@@ -37,9 +37,32 @@
     input {
         width: 100%; 
     }
-  }
 
     button {
         @include btn; 
     }
 }
+
+.PasswordRegister {
+    input{
+        padding: 8px;
+        margin: 0rem 0.5rem;
+        font-family: "Segoe UI";
+    }
+  }
+
+  .NameRegister {
+    input{
+        padding: 8px;
+        margin: 0rem 0.5rem;
+        font-family: "Segoe UI";
+    }
+  }
+
+  .EmailRegister {
+    input{
+        padding: 8px;
+        margin: 0rem 0.5rem;
+        font-family: "Segoe UI";
+    }
+  }
