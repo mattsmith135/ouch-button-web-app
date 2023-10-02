@@ -21,7 +21,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/client/:clientId" element={<Client />}/> 
-        <Route path="/client/:clientId/:dayId" element={<Daily />}/> 
+        <Route path="/client/:clientId/:dayId" element={<Daily />}/>
+        <Route path="/account" element={<Account />} /> 
       </Routes>
     </main>
     </BrowserRouter>
