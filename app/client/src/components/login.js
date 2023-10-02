@@ -1,17 +1,24 @@
-import React from 'react'
-import { Component } from "react";
-import { Link } from "react-router-dom"; 
-import Button from './Button';
-import logo from "../assets/logo.png"; 
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function Login() {
+    const [loginEmail, setLoginEmail] = useState("");
+    const [loginPassword, setLoginPassword] = useState(); 
 
-    const messages = "Error"
-    if (messages.error) {
-        console.log(messages.error) 
-    }
+    const login = (event) => {
+        event.preventDefault(); 
+        axios({
+            method: "post", 
+            data: {
+                TherapistEmail: loginEmail, 
+                TherapistPassword: loginPassword
+            },
+            withCredentials: true,
+            url: "http://localhost:5000/auth/login",
+        }).then(res => console.log(res));
+    };
 
-    return(
+    return (
         <div className="login">
             <div className="login-wrapper">
                 <div className="login-header">
@@ -19,21 +26,21 @@ function Login() {
                     <h1 className="login-header__heading">Login to Ouch Button Portal</h1>
                 </div>
                 <div className="login-content">
-                <form id="login-form" action="/login" method="POST">
-                    <div className="EmailLogin">
-                        <label>Email</label>
-                        <input type="email" id="email" name="email" required/>
-                    </div>
-                    <div className="PasswordLogin">
-                        <label>Password</label>
-                        <input type="password" id="password" name="password" required/>
-                    </div>
-                <br></br>
-                <Button type="submit" text="Login">Login</Button> <Link to="/register"><Button text="Register Page"></Button></Link>
-                </form>
+                    <form id="login-form" action="/login" method="POST">
+                        <div>
+                            <label>Email</label>
+                            <input type="email" id="email" name="email" required onChange={e => setLoginEmail(e.target.value)} />
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <input type="password" id="password" name="password" required onChange={e => setLoginPassword(e.target.value)} />
+                        </div>
+                        <button type="submit" onClick={login}>Login</button>
+                    </form>
                 </div>
             </div>
         </div>
-    )}
+    )
+}
 
 export default Login
