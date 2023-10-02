@@ -37,8 +37,14 @@
 
 .client-metric {
     @include content-container; 
+    width: 100%;
 
     &__heading {
         @include subheading;
     }
+}
+
+/*sizing of map container*/
+.leaflet-container {
+    height: 50vh;
 }

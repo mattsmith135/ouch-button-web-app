@@ -6,8 +6,8 @@ import Upload from "./components/Upload";
 import Search from "./components/Search"; 
 import Client from './components/Client';
 import Daily from "./components/Daily";
-import Login from "./components/Login"; 
-import Register from "./components/Register"; 
+import Login from "./components/login"; 
+import Register from "./components/register"; 
 
 function App() {
 
