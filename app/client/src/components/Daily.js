@@ -46,24 +46,28 @@ function Daily() {
     fetchData();
   }, []);
 
-    
   return (
-    <div>
-      <div>
-      {clientData ? <p>{clientData.ClientName}</p> : <p>Loading</p>}
-      </div>
-      <div>
-        <p>Button presses for: {dayId}</p>
-      </div>
-      <div>
-        {ouchButtonData.map((entry) => (
+    <div className="daily">
+      <div className="daily-wrapper">
+        <div className="daily-header">
+          <div className="daily-header__loading">
+            {clientData ? <h1>{clientData.ClientName}</h1> : <h1>Loading</h1>}
+          </div>
+        </div>
+        <div className="daily-header">
+          <h1 className="daily-header__heading">Button presses for: {dayId}</h1>
+        </div>
+        <div className="daily-table">
+          {ouchButtonData.map((entry) => (
             <div key={entry.OuchButtonDataID}>
               {ouchButtonData ? <p>{entry.Location} at {getTime(entry.Time)}</p> : <p>Loading</p>}
             </div>
           ))}
+        </div>
       </div>
     </div>
-  )
+  );
 }
+
 
 export default Daily

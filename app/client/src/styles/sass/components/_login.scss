@@ -26,6 +26,7 @@
 
     &__heading {
         @include heading;
+        font-family: "Segoe UI";
     }
 }
 
@@ -37,7 +38,29 @@
         width: 100%; 
     }
 
+    font-family: "Segoe UI";
+
     button {
-        @include btn; 
+        @include btn;
     }
 }
+
+body {
+    background-color: #D6D2C4
+  }
+
+  .EmailLogin {
+    input{
+        padding: 8px;
+        margin: 0rem 0.5rem;
+        font-family: "Segoe UI";
+    }
+  }
+
+  .PasswordLogin {
+    input{
+        padding: 8px;
+        margin: 0rem 0.5rem;
+        font-family: "Segoe UI";
+    }
+  }

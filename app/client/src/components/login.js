@@ -22,6 +22,7 @@ function Login() {
         <div className="login">
             <div className="login-wrapper">
                 <div className="login-header">
+                    <img src={logo} alt="Logo" className="logo" />
                     <h1 className="login-header__heading">Login to Ouch Button Portal</h1>
                 </div>
                 <div className="login-content">

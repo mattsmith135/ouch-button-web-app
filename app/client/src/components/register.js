@@ -44,8 +44,13 @@ function Register() {
                     </form>
                 </div>
             </div>
+            <br></br>
+            <button type="submit">Register</button> <Link to="/login"><Button text="Login Page"></Button></Link>
+          </form>
+          
+          
         </div>
     )
 }
 
-export default Register
+export default Register;

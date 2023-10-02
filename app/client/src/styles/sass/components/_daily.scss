@@ -1,0 +1,40 @@
+.daily {
+    @include container-flex; 
+
+    margin: $main-content-margin-vertical $main-content-margin-horizontal;
+
+    &-header, &-content {
+        width: 100%;
+    }
+}
+
+.daily-wrapper {
+    @include container-flex;
+    @include content-container;
+
+    flex-direction: column; 
+    width: 100%;
+    max-width: 600px;
+}
+
+.daily-header {
+    text-align: center;
+
+    &__heading {
+        @include heading;
+        font-family: "Segoe UI";
+    }
+
+    &__loading {
+        @include heading;
+        font-family: "Segoe UI";
+    }
+}
+
+.daily-table {
+    text-align: center;
+    font-family: "Segoe UI";
+    p:nth-child(even) {
+        background-color: #A9D9F3;
+    }
+}
