@@ -18,7 +18,8 @@ CREATE TABLE ClientData (
 CREATE TABLE OuchButtonData (
   OuchButtonDataID INT(10) NOT NULL AUTO_INCREMENT,
   OuchButtonID INT(10),
-  Location VARCHAR(100),
+  Latitude DECIMAL(8,6),
+  Longitude DECIMAL(9,6),
   Time TIMESTAMP,
   ClientID INT(10),
   PRIMARY KEY (OuchButtonDataID),
