@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"; 
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Circle} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { L } from "leaflet";
+import L from "leaflet";
 import { useParams } from "react-router-dom";
 import BarChart from "./BarChart";
 import axios from "axios";
@@ -170,28 +170,30 @@ function calculateChartData(data) {
     const rangeOfPresses = getArrayOfPresses(getFilteredData(data), rangeOfDates);
     
 
-        const newChartData = {
-            labels: rangeOfDays, //Names of days under each bar
-            datasets: [
-                {
-                    label: "Number of Ouch Button Presses This Week", 
-                    data: rangeOfPresses, //how high each bar goes
-                    links: rangeOfDates, //dates returned unique to each bar when the bar is clicked. To be used as dayId for the Daily component
-                },
-            ],
-        };
+    const newChartData = {
+        labels: rangeOfDays, //Names of days under each bar
+        datasets: [
+            {
+                label: "Number of Ouch Button Presses This Week", 
+                data: rangeOfPresses, //how high each bar goes
+                links: rangeOfDates, //dates returned unique to each bar when the bar is clicked. To be used as dayId for the Daily component
+            },
+        ],
+    };
     
-        return newChartData;
+    return newChartData;
         
 }
 
 //function to find the most common hour in an array of data
 function calculateMostCommonTime(data) {
+
+    const filteredData = getFilteredData(data);
     
     const hours = []; 
 
     // Put the hours of each of the data in a list to sort and find the most common
-    data.forEach((entry) => {
+    filteredData.forEach((entry) => {
         hours.push(findHour(entry.Time));
     });
 
@@ -227,28 +229,26 @@ function calculateMostCommonTime(data) {
 
 //function to sort a list of coordinates into rough locations and their frequencies
 function getMostCommonCoordinates(data) {
+    const filteredData = getFilteredData(data);
 
-    //put coordinates into a list
-    const coordinates = [];
+    const coordinates = []; //array used to store all coordinates
+    const groups = []; //array used to store rough general locations and their frequency
 
-    data.forEach((entry) => {
+    filteredData.forEach((entry) => {
         coordinates.push([
-            parseFloat(entry.Latitude),
-            parseFloat(entry.Longitude),
+            parseFloat(entry.Latitude), 
+            parseFloat(entry.Longitude)
         ]);
     });
 
-    //array used to store each rough location and its frequency
-    const groups = [];
     let coordinateIndex = 1;
     let groupIndex = 0;
-    
-    
+
     while(coordinateIndex < coordinates.length) {
         let pointA = L.latLng(coordinates[coordinateIndex]);
-        console.log(pointA);
         let pointB = pointA;
         let distance = 0;
+
         //If groups is empty, add the first coordinate and initialize the frequency
         if (groups.length === 0 ){
             groups.push([
@@ -256,7 +256,8 @@ function getMostCommonCoordinates(data) {
                 1, //frequency
             ]);
         };
-        
+
+
         //look through groups of locations
         while(groupIndex < groups.length){
             pointB = L.latLng(groups[groupIndex][0]);
@@ -282,7 +283,7 @@ function getMostCommonCoordinates(data) {
         coordinateIndex++;
         
     }
-    //find most common rough coordinate
+
     let mostCommonFrequency = null;
     let mostCommonCoordinate = null;
     groups.forEach((entry) => {
@@ -296,8 +297,9 @@ function getMostCommonCoordinates(data) {
             mostCommonCoordinate = entry[0];
         }
     });
-    console.log(mostCommonCoordinate);
+
     return mostCommonCoordinate;
+
 }
 
 //note to self: make ouchButtonData = getFilteredData(ouchButtonRes.data) because only the filtered data is used on this page
@@ -319,60 +321,87 @@ function Client() {
                     axios.get(`http://localhost:5000/clientdata/${clientId}`),
                     axios.get(`http://localhost:5000/ouchbuttondata/${clientId}`)
                 ]);
-                setOuchButtonData(ouchButtonRes.data);
-                setChartData(calculateChartData(ouchButtonRes.data));
-                setclientData(clientRes.data); 
-                setMostCommonTime(calculateMostCommonTime(getFilteredData(ouchButtonRes.data)));
-                const coordinates = getMostCommonCoordinates(getFilteredData(ouchButtonRes.data));
-                
-                
-                // Set the state variables
-                setCoordinates(coordinates);
-
-                
-                
+    
+                return {
+                    clientData: clientRes.data,
+                    ouchButtonData: ouchButtonRes.data,
+                };
             } catch (err) {
-                setError("Error fetching data."); 
-            } 
+                throw new Error("Error fetching data.");
+            }
         };
     
-        fetchData();
-        setLoading(false);
-    }, []);
+        const fetchAndUpdateData = async () => {
+
+            //don't render yet
+            setLoading(true);
+    
+            try {
+                const { clientData, ouchButtonData } = await fetchData();
+                setclientData(clientData);
+                setOuchButtonData(ouchButtonData);
+                setChartData(calculateChartData(ouchButtonData));
+                setMostCommonTime(calculateMostCommonTime(ouchButtonData));
+                setCoordinates(getMostCommonCoordinates(ouchButtonData));
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                //now everything is loaded, render
+                setLoading(false);
+            }
+        };
+    
+        fetchAndUpdateData();
+    }, [clientId]);
 
     return (
         <div className="client">
-            {loading ? ( "Loading...") : (
-                <>
-                    <div className="client-header">
+          {loading ? (
+            "Loading..."
+          ) : (
+            <>
+              <div className="client-header">
                 <h4 className="client-header__subheading">User</h4>
-                {clientData ? <h1 className="client-header__heading">{clientData?.ClientName}</h1> : <h1 className="client-header__heading">Loading</h1>}
-            </div>
-            <div className="client-content">
+                {clientData ? (
+                  <h1 className="client-header__heading">{clientData?.ClientName}</h1>
+                ) : (
+                  <h1 className="client-header__heading">Loading</h1>
+                )}
+              </div>
+              <div className="client-content">
                 <div className="client-metric">
-                    {chartData && <BarChart chartData={chartData} clientId={clientId}/>} 
-                </div> 
-                <div className="client-metric"> 
-                    <h3 className="client-metric__heading">This week, the button was pressed most between:</h3>
-                    {formatAmPm(mostCommonTime) ? <p>{formatAmPm(mostCommonTime)} to {formatAmPm(parseInt(mostCommonTime) + 1)}</p> : <p>Loading...</p>}
+                  {chartData && <BarChart chartData={chartData} clientId={clientId} />}
                 </div>
-            </div>
-            <div className="client-metric">
-                <h3 className="client-metric__heading">The location the button was pressed the most in was:</h3>
-                <MapContainer center={[34.234567, -118.890123]} zoom={13}>
-
-                    {/* Draw the map */}
-                    <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-
-                    {/* Draw the marker on the map */}
-                    <Marker position={[34.234567, -118.890123]}></Marker>
+                <div className="client-metric">
+                  <h3 className="client-metric__heading">
+                    This week, the button was pressed most between:
+                  </h3>
+                  {formatAmPm(mostCommonTime) ? (
+                    <p>
+                      {formatAmPm(mostCommonTime)} to{" "}
+                      {formatAmPm(parseInt(mostCommonTime) + 1)}
+                    </p>
+                  ) : (
+                    <p>Loading...</p>
+                  )}
+                </div>
+              </div>
+              <div className="client-metric">
+                <h3 className="client-metric__heading">
+                  The rough location where the button was pressed the most was:
+                </h3>
+                <MapContainer center={coordinates} zoom={15}>
+                  <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                  {coordinates && (
+                    <Circle center={coordinates} radius={100} pathOptions={{color: 'blue'}}/>
+                  )}
                 </MapContainer>
-            </div>
-                </>
-            )}
-            
+              </div>
+            </>
+          )}
         </div>
-    ); 
+      );
+      
 }
 
 export default Client;
