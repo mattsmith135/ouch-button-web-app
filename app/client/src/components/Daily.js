@@ -216,7 +216,6 @@ function Daily() {
           setLoading(false);
       }
     };
-
     fetchAndUpdateData();
   }, [coordinates]);
 

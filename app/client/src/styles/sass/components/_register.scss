@@ -26,6 +26,7 @@
 
     &__heading {
         @include heading;
+        font-family: "Segoe UI";
     }
 }
 
@@ -36,6 +37,7 @@
     input {
         width: 100%; 
     }
+  }
 
     button {
         @include btn; 

@@ -1,32 +1,44 @@
-const localStrategy = require('passport-local').Strategy
-const bcrypt = require ('bcrypt')
+const { therapistdata } = require('./models');
+const bcrypt = require('bcryptjs'); 
+const LocalStrategy = require('passport-local').Strategy; 
 
+module.exports = function (passport) {
+    passport.use(new LocalStrategy({
+            usernameField: 'TherapistEmail', 
+            passwordField: 'TherapistPassword', 
+        },
+        function verify(TherapistEmail, TherapistPassword, done) {
+            therapistdata.findOne({ where: { TherapistEmail: TherapistEmail } }, (err, therapist) => {
+                if (err) { return done(err); }; 
+                if (!therapist) { return done(null, false, { message: "Incorrect username or password." }) }; 
 
-function initialize(passport, getUserByEmail, getUserById) {
-    const authenticateUser = async (email, password, done) => {
-        const user = getUserByEmail(email)
-        if (user == null) {
-            return done(null, false, {message: 'No user with that email'})
-        }
+                bcrypt.compare(TherapistPassword, therapist.TherapistPassword, (err, result) => {
+                    if (err) { return done(err); };
+                    if (result === true) { 
+                        return done(null, therapist); 
+                    }
+                    else {
+                        return done(null, false, { message: "Incorrect username or password." }); 
+                    }
+                })
+            }) 
+        })
+    )  
 
-        try {
-            if ( await bcrypt.compare(password, user.password)) {
-                return done(null, user)
-            } else {
-                return done(null, false, {message: 'Password incorrect'})
-            }
-        } catch (e) {
-            return done(e)
-        }
-    }
+    passport.serializeUser(function(therapist, cb) {
+        process.nextTick(function() {
+            return cb(null, {
+                TherapistID: therapist.TherapistID, 
+                TherapistName: therapist.TherapistName, 
+                TherapistEmail: therapist.TherapistEmail, 
+                TherapistPassword: therapist.TherapistPassword
+            })
+        })
+    });
 
-
-
-    passport.use(new localStrategy({ usernameField: 'email'}, authenticateUser))
-    passport.serializeUser((user, done) => done(null, user.id))
-    passport.deserializeUser((id, done) => {
-        return done(null, getUserById(id))
-    })
+    passport.deserializeUser(function(therapist, cb) {
+        process.nextTick(function() {
+            return cb(null, therapist)
+        })
+    });
 }
-
-module.exports = initialize

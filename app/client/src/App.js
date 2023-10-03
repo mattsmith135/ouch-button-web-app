@@ -13,7 +13,7 @@ function App() {
 
   return (
     <BrowserRouter>
-    <Navbar />
+    {/*<Navbar />*/}
     <main>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -22,10 +22,11 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/client/:clientId" element={<Client />}/> 
         <Route path="/client/:clientId/:dayId" element={<Daily />}/> 
+        
       </Routes>
     </main>
     </BrowserRouter>
   );
 }
-
+//{<Navbar />}
 export default App;
