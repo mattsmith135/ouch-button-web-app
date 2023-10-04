@@ -254,28 +254,29 @@ function Daily() {
   }
 
   return (
-    <div className="client-content">
-    {loading ? (
-      "Loading"
-      ) : (
-        <>
-          <div className="client-metric">
-            {clientData ? <p>{clientData.ClientName}</p> : <p>Loading</p>}
-          </div>
-          <div className="client-metric">
-            {chartData && <Line data={chartData} options={options} onClick={onClick} ref={chartRef}></Line>}
-          </div>
-          <div>
-            {coordinates && (
-              <MapContainer center={coordinates} zoom={15}>
-              <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Circle center={coordinates} radius={100} pathOptions={{color: 'blue'}}/>
-            </MapContainer>
-            )}
-            
-          </div>
-        </>
-      )}
+    <div className="daily">
+      <div className="client-content">
+        {loading ? (
+        "Loading"
+        ) : (
+          <>
+            <div className="client-metric">
+              {clientData ? <p>{clientData.ClientName}</p> : <p>Loading</p>}
+            </div>
+            <div className="client-metric">
+              {chartData && <Line data={chartData} options={options} onClick={onClick} ref={chartRef}></Line>}
+            </div>
+            <div>
+              {coordinates && (
+                <MapContainer center={coordinates} zoom={15}>
+                  <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                  <Circle center={coordinates} radius={100} pathOptions={{color: 'blue'}}/>
+              </MapContainer>
+              )}
+            </div>
+          </>
+        )}
+      </div>
     </div>
 
   )

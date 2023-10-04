@@ -1,40 +1,52 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the Daily component
+// -----------------------------------------------------------------------------
+
 .daily {
-    @include container-flex; 
+    @include container-flex;
 
     margin: $main-content-margin-vertical $main-content-margin-horizontal;
 
-    &-header, &-content {
-        width: 100%;
-    }
-}
-
-.daily-wrapper {
-    @include container-flex;
-    @include content-container;
+    position: relative;
 
     flex-direction: column; 
-    width: 100%;
-    max-width: 600px;
+
+    gap: 1rem;
+
+    &-header, &-content {
+        width: 100%; 
+    }
 }
 
-.daily-header {
-    text-align: center;
+.client-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.client-header {
+    
+    &__subheading {
+        @include subheading;
+        margin: 0px; 
+    }
 
     &__heading {
-        @include heading;
-        font-family: "Segoe UI";
-    }
-
-    &__loading {
-        @include heading;
-        font-family: "Segoe UI";
+        @include heading; 
+        margin: 0px;
     }
 }
 
-.daily-table {
-    text-align: center;
-    font-family: "Segoe UI";
-    p:nth-child(even) {
-        background-color: #A9D9F3;
+.client-metric {
+    @include content-container; 
+    width: 100%;
+
+    &__heading {
+        @include subheading;
     }
+}
+
+/*sizing of map container*/
+.leaflet-container {
+    height: 50vh;
 }

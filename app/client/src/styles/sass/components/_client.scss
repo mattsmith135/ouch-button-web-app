@@ -5,7 +5,7 @@
 .client {
     @include container-flex;
 
-    margin: $main-content-margin-vertical $main-content-margin-horizontal;
+    //margin: $main-content-margin-vertical $main-content-margin-horizontal;
 
     flex-direction: column; 
 
