@@ -15,24 +15,24 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config(); 
 
 // Middleware
-app.use(bodyParser.urlencoded({ extended: true })); 
+
+require('./passport-config')(passport); 
+
 app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(express.json()); 
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
 })); 
-app.use(cookieParser(process.env.SESSION_SECRET));
+app.use(cookieParser(process.env.SESSION_SECRET)); 
 app.use(expressSession({
     secret: process.env.SESSION_SECRET,
-    resave: true, 
+    resave: false, 
     saveUninitialized: true,
-    cookie: { secure: false }
 }));
- 
 app.use(passport.initialize()); 
 app.use(passport.session());
-require('./passport-config')(passport); 
 
 // Routers
 app.use('/ouchbuttondata', ouchbuttondataRouter);
