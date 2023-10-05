@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport'); 
-const bcrypt = require('bcryptjs'); 
+const bcrypt = require('bcrypt'); 
 const router = express.Router();
 const { therapistdata } = require('../models');
 
@@ -9,19 +9,15 @@ router.post('/login', (req, res, next) => {
         successRedirect: "/",
         failureRedirect: "/login" 
     }, async (err, user, info) => {
-        
-        console.log('Test');
-        console.log(info); 
-         
         if (err) throw err;
-        if (!req.user) { 
-            res.send("No User Exists"); 
+        if (!user) { 
+            res.send("No User Exists With That Username And Password"); 
         }
         else {
-            req.logIn(req.user, err => {
+            req.logIn(user, err => {
                 if (err) throw err; 
                 res.send("Successfully Authenticated"); 
-                console.log(req.user); 
+                console.log(user); 
             })
         }
     })(req, res, next)

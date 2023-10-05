@@ -11,8 +11,8 @@ function Login() {
             method: "post", 
             data: {
                 // Note that Passport.JS expects req.body to contain 'username' and 'password'
-                username: loginEmail, 
-                password: loginPassword
+                TherapistEmail: loginEmail, 
+                TherapistPassword: loginPassword
             },
             withCredentials: true,
             url: "http://localhost:5000/auth/login",

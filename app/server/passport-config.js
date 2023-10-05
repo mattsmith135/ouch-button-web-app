@@ -3,14 +3,14 @@ const bcrypt = require('bcryptjs');
 const { therapistdata } = require('./models'); 
 
 module.exports = function (passport) {
-    const verify = async (TherapistEmail, TherapistPassword, done) => {
-        const therapist = therapistdata.findOne({ where: { TherapistEmail: TherapistEmail } });
+    const verify = async (username, password, done) => {
+        const therapist = await therapistdata.findOne({ where: { TherapistEmail: username } });
         if (therapist == null) {
             return done(null, false, { message: "No user with that email" }); 
         }
 
         try {
-            if (await bcrypt.compare(TherapistPassword, therapist.TherapistPassword)) {
+            if (await bcrypt.compare(password, therapist.TherapistPassword)) {
                 return done(null, therapist); 
             } else {
                 return done(null, false, { message: "Password incorrect" }); 
