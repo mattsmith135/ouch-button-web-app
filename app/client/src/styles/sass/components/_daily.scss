@@ -17,36 +17,3 @@
         width: 100%; 
     }
 }
-
-.client-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.client-header {
-    
-    &__subheading {
-        @include subheading;
-        margin: 0px; 
-    }
-
-    &__heading {
-        @include heading; 
-        margin: 0px;
-    }
-}
-
-.client-metric {
-    @include content-container; 
-    width: 100%;
-
-    &__heading {
-        @include subheading;
-    }
-}
-
-/*sizing of map container*/
-.leaflet-container {
-    height: 50vh;
-}

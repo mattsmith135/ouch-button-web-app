@@ -41,7 +41,7 @@ router.post('/register', async (req, res) => {
     }
 }); 
 
-router.delete('/logout', (res, res) => {
+router.delete('/logout', (req, res) => {
     // Use method-override library in-conjunction with HTML form to logout users
     // Ref: https://www.youtube.com/watch?v=-RCnNyD0L-s Skip To Video Time: 33:00 
     req.logOut(); 

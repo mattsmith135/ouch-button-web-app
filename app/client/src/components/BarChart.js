@@ -20,7 +20,7 @@ function BarChart({ chartData, clientId }) {
     const chartRef = useRef();
     const navigate = useNavigate(); 
 
-    //to make the bars clickable and redirect to the Daily component
+    // To make the bars clickable and redirect to the Daily component
     const onClick = (event) => {
 
         if (getElementsAtEvent(chartRef.current, event).length > 0) {
