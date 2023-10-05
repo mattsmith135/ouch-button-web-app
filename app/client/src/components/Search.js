@@ -2,14 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
 
-import { Component} from "react"; 
-import { Link, useParams } from "react-router-dom";
-import logo from "../assets/logo.png"; 
-import accountLogo from "../assets/therapist-profile-picture.jpg"; 
-import Button from './Button';
-
-
-
 function Search() {
     const [clientData, setclientData] = useState([]);
     const [search, setSearch] = useState('');
