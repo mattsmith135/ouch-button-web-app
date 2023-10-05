@@ -1,11 +1,13 @@
 // -----------------------------------------------------------------------------
-// This file contains all styles related to the Client component
+// This file contains all styles related to the Daily component
 // -----------------------------------------------------------------------------
 
-.client {
+.daily {
     @include container-flex;
 
-    //margin: $main-content-margin-vertical $main-content-margin-horizontal;
+    margin: $main-content-margin-vertical $main-content-margin-horizontal;
+
+    position: relative;
 
     flex-direction: column; 
 

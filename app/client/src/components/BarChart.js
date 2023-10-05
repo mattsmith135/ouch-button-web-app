@@ -2,7 +2,7 @@ import React from "react";
 import { useRef } from 'react';
 import { useNavigate } from "react-router-dom"; 
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js/auto";
-import { Bar, getElementAtEvent, getElementsAtEvent } from "react-chartjs-2";  
+import { Bar, getElementsAtEvent } from "react-chartjs-2";  
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
@@ -20,6 +20,7 @@ function BarChart({ chartData, clientId }) {
     const chartRef = useRef();
     const navigate = useNavigate(); 
 
+    //to make the bars clickable and redirect to the Daily component
     const onClick = (event) => {
 
         if (getElementsAtEvent(chartRef.current, event).length > 0) {
