@@ -49,10 +49,6 @@ function Register() {
                 </div>
             </div>
             <br></br>
-             
-          
-          
-          
         </div>
     )
 }
