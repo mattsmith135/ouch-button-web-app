@@ -48,17 +48,6 @@ function getFilteredData(data, time){
   return filteredData;
 }
 
-function formatAMPM(hour, minutes) {
-  let ampm = "AM";
-
-  if (hour > 12) {
-    hour -= 12;
-    ampm = "PM";
-  }
-
-  return `${hour}:${minutes} ${ampm}`;
-}
-
 function calculateChartData(data) {
   const times = [] //to store the times from the data into a list
   const sortedTimes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] //to store the amount of times grouped into every 2 hours to be used to plot the chart
@@ -109,7 +98,7 @@ function findCoordinates(data) {
         ]);
     });
 
-    let coordinateIndex = 1;
+    let coordinateIndex = 0;
     let groupIndex = 0;
 
     while(coordinateIndex < coordinates.length) {
@@ -120,7 +109,7 @@ function findCoordinates(data) {
         //If groups is empty, add the first coordinate and initialize the frequency
         if (groups.length === 0 ){
             groups.push([
-                coordinates[coordinateIndex -1],
+                coordinates[coordinateIndex],
                 1, //frequency
             ]);
         };
@@ -131,8 +120,8 @@ function findCoordinates(data) {
             pointB = L.latLng(groups[groupIndex][0]);
             distance = pointA.distanceTo(pointB);
 
-            //if the current coordinate is close to any one of the coordinates in groups, increase the frequency of that group
-            if(distance < 100){
+            //if the current coordinate is close to any one of the coordinates in groups, increase the frequency of that group unless it's the first coordinate in the array because if it is, it's already been accounted for in the previous if statement
+            if (distance < 100 && coordinateIndex > 0){
                 groups[groupIndex][1]++;//increase the frequency
                 break; //exit the loop if a match is found
                 
@@ -142,8 +131,8 @@ function findCoordinates(data) {
                 groups.push([
                     coordinates[coordinateIndex],
                     1, //frequency initialized to 1
-
                 ])
+                break;
             }
             groupIndex++;
         }
@@ -157,6 +146,7 @@ function findCoordinates(data) {
     groups.forEach((entry) => {
         if(mostCommonFrequency === null || entry[1] > mostCommonFrequency){
             mostCommonFrequency = entry[1];
+            mostCommonCoordinate = entry[0];
         }
     });
 
@@ -166,7 +156,6 @@ function findCoordinates(data) {
         }
     });
 
-    console.log(mostCommonCoordinate);
     return mostCommonCoordinate;
 
 }
@@ -217,8 +206,7 @@ function Daily() {
       }
     };
     fetchAndUpdateData();
-  }, [coordinates]);
-
+  }, []);
 
   //the chart options
   const options = {
@@ -261,7 +249,7 @@ function Daily() {
         ) : (
           <>
             <div className="client-metric">
-              {clientData ? <p>{clientData.ClientName}</p> : <p>Loading</p>}
+              {clientData ? <p>{clientData.ClientName}'s Ouch Button Records for {dayId}</p> : <p>Loading</p>}
             </div>
             <div className="client-metric">
               {chartData && <Line data={chartData} options={options} onClick={onClick} ref={chartRef}></Line>}

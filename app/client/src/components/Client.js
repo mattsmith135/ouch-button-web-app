@@ -102,8 +102,11 @@ function formatAmPm(hour){
 
     let ampm = "AM";
 
-    if(hour > 12){
-        hour -= 12;
+    if(hour >= 12){
+        if(hour > 12){
+            hour -= 12;
+        }
+        
         ampm = "PM";
     }
 
@@ -241,7 +244,7 @@ function getMostCommonCoordinates(data) {
         ]);
     });
 
-    let coordinateIndex = 1;
+    let coordinateIndex = 0;
     let groupIndex = 0;
 
     while(coordinateIndex < coordinates.length) {
@@ -252,7 +255,7 @@ function getMostCommonCoordinates(data) {
         //If groups is empty, add the first coordinate and initialize the frequency
         if (groups.length === 0 ){
             groups.push([
-                coordinates[coordinateIndex -1],
+                coordinates[coordinateIndex],
                 1, //frequency
             ]);
         };
@@ -262,9 +265,11 @@ function getMostCommonCoordinates(data) {
         while(groupIndex < groups.length){
             pointB = L.latLng(groups[groupIndex][0]);
             distance = pointA.distanceTo(pointB);
+            console.log(pointA)
+            console.log(pointB)
 
             //if the current coordinate is close to any one of the coordinates in groups, increase the frequency of that group
-            if(distance < 100){
+            if (distance < 100 && coordinateIndex > 0){
                 groups[groupIndex][1]++;//increase the frequency
                 break; //exit the loop if a match is found
                 
@@ -276,6 +281,7 @@ function getMostCommonCoordinates(data) {
                     1, //frequency initialized to 1
 
                 ])
+                break;
             }
             groupIndex++;
         }
@@ -289,6 +295,7 @@ function getMostCommonCoordinates(data) {
     groups.forEach((entry) => {
         if(mostCommonFrequency === null || entry[1] > mostCommonFrequency){
             mostCommonFrequency = entry[1];
+            mostCommonCoordinate = entry[0];
         }
     });
 
@@ -298,7 +305,9 @@ function getMostCommonCoordinates(data) {
         }
     });
 
+    console.log(mostCommonCoordinate);
     return mostCommonCoordinate;
+
 
 }
 
@@ -311,7 +320,7 @@ function Client() {
     const [mostCommonTime, setMostCommonTime] = useState(); 
     const [coordinates, setCoordinates] = useState();
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); //used to force the website to wait until everything is loaded before attempting to render
 
     //taking the data from the database and sorting them where they need to go
     useEffect(() => {

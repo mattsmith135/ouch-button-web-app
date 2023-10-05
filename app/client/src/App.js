@@ -13,7 +13,7 @@ function App() {
 
   return (
     <BrowserRouter>
-    {/*<Navbar />*/}
+    
     <main>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -25,8 +25,8 @@ function App() {
         
       </Routes>
     </main>
+    <Navbar />
     </BrowserRouter>
   );
 }
-//{<Navbar />}
 export default App;

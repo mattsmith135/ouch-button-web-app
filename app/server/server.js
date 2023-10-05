@@ -22,13 +22,14 @@ app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
 })); 
+app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(expressSession({
     secret: process.env.SESSION_SECRET,
     resave: true, 
     saveUninitialized: true,
     cookie: { secure: false }
 }));
-app.use(cookieParser(process.env.SESSION_SECRET)); 
+ 
 app.use(passport.initialize()); 
 app.use(passport.session());
 require('./passport-config')(passport); 
