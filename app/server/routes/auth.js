@@ -17,7 +17,6 @@ router.post('/login', (req, res, next) => {
             req.logIn(user, err => {
                 if (err) throw err; 
                 res.send("Successfully Authenticated"); 
-                console.log(user); 
             })
         }
     })(req, res, next)
@@ -35,13 +34,18 @@ router.post('/register', async (req, res) => {
 
     if (created) {
         res.send(`User created: ${newTherapist}`);
+        res.redirect('/login'); // Redirect to login if register is successful
     } else {
         res.send("User already exists"); 
+        res.redirect('/register'); // Redirect to register if register fails
     }
 }); 
 
-router.get('/user', (req, res) => {
-    res.send(req.user); 
-});
+router.delete('/logout', (res, res) => {
+    // Use method-override library in-conjunction with HTML form to logout users
+    // Ref: https://www.youtube.com/watch?v=-RCnNyD0L-s Skip To Video Time: 33:00 
+    req.logOut(); 
+    res.redirect('login'); 
+})
 
 module.exports = router; 

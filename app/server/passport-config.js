@@ -22,7 +22,12 @@ module.exports = function (passport) {
 
     passport.use(new LocalStrategy({ usernameField: 'TherapistEmail', passwordField: 'TherapistPassword', }, verify))
     passport.serializeUser((user, done) => done(null, user.TherapistID))
-    passport.deserializeUser((id, done) => { 
-        return done(null, therapistdata.findOne({ where: { TherapistID: id } }))
+    passport.deserializeUser(async (id, done) => { 
+        try {
+            const therapist = await therapistdata.findOne({ where: { TherapistID: id } }); 
+            done(null, therapist); 
+        } catch (error) {
+            done(error); 
+        }
     })
 }
