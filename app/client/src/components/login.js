@@ -11,6 +11,7 @@ function Login() {
         axios({
             method: "post", 
             data: {
+                // Note that Passport.JS expects req.body to contain 'username' and 'password'
                 TherapistEmail: loginEmail, 
                 TherapistPassword: loginPassword
             },
