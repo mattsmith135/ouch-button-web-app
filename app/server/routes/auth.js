@@ -5,20 +5,26 @@ const router = express.Router();
 const { therapistdata } = require('../models');
 
 router.post('/login', (req, res, next) => {
-    passport.authenticate("local", (err, therapist, info) => {
+    passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/login" 
+    }, async (err, user, info) => {
+        
+        console.log('Test');
         console.log(info); 
-        if (err) throw err; 
-        if (!therapist) {
-            res.send("No User Exists")
+         
+        if (err) throw err;
+        if (!req.user) { 
+            res.send("No User Exists"); 
         }
         else {
-            req.logIn(therapist, err => {
+            req.logIn(req.user, err => {
                 if (err) throw err; 
                 res.send("Successfully Authenticated"); 
                 console.log(req.user); 
             })
         }
-    })(req, res, next);
+    })(req, res, next)
 });
 
 router.post('/register', async (req, res) => {

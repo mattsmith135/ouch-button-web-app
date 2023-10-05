@@ -10,8 +10,9 @@ function Login() {
         axios({
             method: "post", 
             data: {
-                TherapistEmail: loginEmail, 
-                TherapistPassword: loginPassword
+                // Note that Passport.JS expects req.body to contain 'username' and 'password'
+                username: loginEmail, 
+                password: loginPassword
             },
             withCredentials: true,
             url: "http://localhost:5000/auth/login",
