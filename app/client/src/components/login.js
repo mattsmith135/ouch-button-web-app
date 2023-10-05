@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import logo from "../assets/logo.png"; 
 
 function Login() {
     const [loginEmail, setLoginEmail] = useState("");
