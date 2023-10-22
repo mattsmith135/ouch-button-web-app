@@ -7,7 +7,7 @@ function Map({ coordinates, zoom, radius, color }) {
         <MapContainer center={coordinates} zoom={zoom}>
             <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {coordinates && (
-            <Circle center={coordinates} radius={radius} pathOptions={{color: color}}/>
+                <Circle center={coordinates} radius={radius} pathOptions={{color: color}}/>
             )}
         </MapContainer>
     )

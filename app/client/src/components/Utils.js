@@ -2,12 +2,7 @@
 
 import L from "leaflet";
 
-export const findMostCommonCoordinates = (data) => {
-    const coordinates = data.map(entry => [
-        parseFloat(entry.Latitude),
-        parseFloat(entry.Longitude)
-    ]);
-
+export const findMostCommonCoordinates = (coordinates) => {
     const groups = [];
 
     coordinates.forEach(coord => {

@@ -17,3 +17,18 @@
         width: 100%; 
     }
 }
+
+.daily-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.daily-metric {
+    @include content-container; 
+    width: 100%;
+
+    &__heading {
+        @include subheading;
+    }
+}

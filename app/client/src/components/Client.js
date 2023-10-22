@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BarChart from "./BarChart";
 import Map from "./Map"; 
@@ -77,6 +77,7 @@ function calculateMostCommonTime(data) {
 
 function Client() {
     let { clientId } = useParams();
+    const navigate = useNavigate(); 
     const [clientData, setClientData] = useState(); 
     const [ouchButtonData, setOuchButtonData] = useState();
     const [chartData, setChartData] = useState(); 
@@ -104,7 +105,10 @@ function Client() {
                 setOuchButtonData(ouchButtonData);
                 setChartData(calculateChartData(ouchButtonData));
                 setMostCommonTime(calculateMostCommonTime(ouchButtonData));
-                setCoordinates(findMostCommonCoordinates(ouchButtonData));
+                setCoordinates(findMostCommonCoordinates(ouchButtonData.map(entry => [
+                    parseFloat(entry.Latitude),
+                    parseFloat(entry.Longitude)
+                ])));
             } catch (err) {
                 console.log(err.message); 
             } finally {
@@ -115,6 +119,16 @@ function Client() {
     
         fetchData();
     }, [clientId]);
+
+    const handleChartClick = (event, chartData) => {
+        if (event.length > 0) {
+            const datasetIndexNum = event[0].datasetIndex;
+            const dataPoint = event[0].index;
+
+            const dayId = chartData.datasets[datasetIndexNum].links[dataPoint];
+            navigate(`/client/${clientId}/${dayId}`);
+        }
+    };
 
     return (
         <div className="client">
@@ -132,7 +146,7 @@ function Client() {
                 </div>
                 <div className="client-content">
                     <div className="client-metric">
-                        {chartData && <BarChart chartData={chartData} clientId={clientId} />}
+                        {chartData && <BarChart chartData={chartData} clientId={clientId} onChartClick={handleChartClick} />}
                     </div>
                     <div className="client-metric">
                         <h3 className="client-metric__heading">This week, the button was pressed most between:</h3>

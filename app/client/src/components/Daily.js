@@ -46,7 +46,7 @@ function calculateChartData(data) {
     };
 
     return newChartData;
-  }
+}
 
 function Daily() {
     let { clientId } = useParams();
@@ -79,10 +79,14 @@ function Daily() {
                     const dataPoint = chartData.datasets[0].data.findIndex(data => data > 0);
                     if (dataPoint >= 0) {
                         const filteredouchButtonData = filterOuchButtonDataByHour(ouchButtonData, chartData.labels[dataPoint]);
-                        const coordinate = findMostCommonCoordinates(filteredouchButtonData);
-                        setCoordinates(coordinate);
+                        const coordinates = findMostCommonCoordinates(filteredouchButtonData.map(entry => [
+                            parseFloat(entry.Latitude),
+                            parseFloat(entry.Longitude)
+                        ]));
+                        setCoordinates(coordinates);
+                        console.log(filteredouchButtonData); 
                     }
-                  }
+                }
             } catch (err) {
                 console.log(err.message); 
             } finally {
@@ -96,15 +100,15 @@ function Daily() {
 
     return (
         <div className="daily">
-            <div className="client-content">
+            <div className="daily-content">
                 {loading ? (
-                "Loading"
+                    "Loading"
                 ) : (
                     <>
-                    <div className="client-metric">
+                    <div className="daily-metric">
                         {clientData ? <p>{clientData.ClientName}</p> : <p>Loading</p>}
                     </div>
-                    <div className="client-metric">
+                    <div className="daily-metric">
                         {chartData ? (
                             <LineChart chartData={chartData} />
                         ) : (
