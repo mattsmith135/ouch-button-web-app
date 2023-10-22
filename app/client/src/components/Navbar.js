@@ -1,20 +1,17 @@
-import { Component, useState, useEffect, React } from "react"; 
-import { Link, useParams } from "react-router-dom";
-import logo from "../assets/logo.png"; 
+import React from "react"; 
+import { Link } from "react-router-dom";
+import Logo from "../assets/logo.png"; 
 import accountLogo from "../assets/therapist-profile-picture.jpg"; 
 import Button from './Button';
 
 function Navbar() {
-
-  // Use UseParams() to get the Therapist Id to get the therapist name. 
-  // Note: Get Ruben's stuff working
 
   return (
     <div>
       <nav className="nav">
         <div className="nav-container nav-container-left">
           <Link to="/">
-            <img src={logo} alt="Logo" className="logo" />
+            <img src={Logo} alt="Logo" className="logo" />
           </Link>
         </div>
         <div className="nav-container nav-container-right">

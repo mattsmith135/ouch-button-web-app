@@ -7,6 +7,12 @@ router.get('/', async (req, res) => {
     res.json(response);
 });
 
+router.get('/:therapistId', async (req, res) => {
+    const therapistId = req.params.therapistId;
+    const therapist = await therapistdata.findByPk(therapistId)
+    res.json(therapist);
+});
+
 router.post('/', async (req, res) => {
     const newTherapistData = req.body;
     await therapistdata.create(newTherapistData);

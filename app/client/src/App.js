@@ -23,7 +23,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/client/:clientId" element={<Client />}/> 
         <Route path="/client/:clientId/:dayId" element={<Daily />}/>
-        <Route path="/account" element={<Account />} /> 
+        <Route path="/account/:therapistId" element={<Account />} /> 
       </Routes>
     </main>
     </BrowserRouter>

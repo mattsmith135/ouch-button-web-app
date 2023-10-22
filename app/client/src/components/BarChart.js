@@ -1,5 +1,4 @@
-import React from "react"; 
-import { useRef } from 'react';
+import { React, useRef } from "react"; 
 import { useNavigate } from "react-router-dom"; 
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js/auto";
 import { Bar, getElementsAtEvent } from "react-chartjs-2";  
@@ -34,7 +33,7 @@ function BarChart({ chartData, clientId }) {
     }
 
     return (
-        <Bar className="barchart" data={chartData} options={chartOptions} onClick={onClick} ref = {chartRef}/>
+        <Bar className="barchart" data={chartData} options={chartOptions} onClick={onClick} ref={chartRef}/>
     )
 }
 

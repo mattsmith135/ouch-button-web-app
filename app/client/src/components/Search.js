@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
 
 function Search() {
-    const [clientData, setclientData] = useState([]);
+    const [clientData, setClientData] = useState([]);
     const [search, setSearch] = useState('');
     const [error, setError] = useState(null); 
 
@@ -13,7 +13,7 @@ function Search() {
               axios.get("http://localhost:5000/clientdata")
                 .then(res => {
                     const clientData = res.data;
-                    setclientData(clientData)
+                    setClientData(clientData)
                 })
             } catch (err) {
                 setError("Error fetching data."); 
