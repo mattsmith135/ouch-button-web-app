@@ -51,9 +51,8 @@ const int greenLightPin = 10;
 bool isSDCardFail = false;
 bool isGPSFail = false;
 
-
 // Big Button Config
-ezButton limitSwitch(8);
+ezButton limitSwitch(5);
 
 // General Variables
 int buttonValue;
