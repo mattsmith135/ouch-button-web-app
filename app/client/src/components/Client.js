@@ -138,11 +138,7 @@ function Client() {
             <>
                 <div className="client-header">
                     <h4 className="client-header__subheading">User</h4>
-                    {clientData ? (
-                        <h1 className="client-header__heading">{clientData?.ClientName}</h1>
-                    ) : (
-                        <h1 className="client-header__heading">Loading</h1>
-                    )}
+                    <h1 className="client-header__heading">{clientData ? clientData.ClientName : "Loading"}</h1>
                 </div>
                 <div className="client-content">
                     <div className="client-metric">

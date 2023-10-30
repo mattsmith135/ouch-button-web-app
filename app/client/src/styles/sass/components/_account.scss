@@ -1,0 +1,37 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles corresponding to the Account component
+// -----------------------------------------------------------------------------
+
+.account {
+    @include container-flex;
+
+    margin: $main-content-margin-vertical $main-content-margin-horizontal;
+
+    position: relative;
+
+    gap: 1rem; 
+
+    flex-direction: column; 
+
+    &-header, &-content {
+        width: 100%; 
+    }
+}
+
+.account-header {
+    
+    &__subheading {
+        @include subheading;
+        margin: 0px; 
+    }
+
+    &__heading {
+        @include heading; 
+        margin: 0px;
+    }
+}
+
+.account-content {
+    display: flex;
+    flex-direction: column;
+}
